@@ -1,0 +1,273 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.search-filter-container {
+    display: flex;
+    justify-content: space-between; 
+    margin-left: 20px;
+    margin-right: 20px; 
+    margin-bottom: 30px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+}
+
+.searchTerm {
+    width: 250px;
+    border: 2px solid #24344B;
+    border-right: none;
+    padding: 5px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+}
+
+.searchTerm:focus {
+    color: #24344B;
+}
+
+.searchButton {
+    width: 30px;
+    height: 30px;
+    border: 1px solid grey;
+    background: #24344B;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.filter {
+    display: flex;
+    align-items: center; 
+}
+
+.filter select {
+    padding-left: 5px;
+    padding-right: 60px;
+    outline: none;
+    font-size: 16px;
+    border: 2px solid #24344B;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none; 
+    appearance: none;
+    background-position: right 10px center;
+    background-size: 20px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.filter i.fa-filter {
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid grey;
+    background: #24344B;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.record-container {
+    background-color: #ffffff;
+    max-width: 1350px; 
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;  
+}
+
+.records-container {
+    background-color: #ffffff;
+    max-width: 1800px; 
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;  
+    padding: 20px;
+}
+
+.records-title {
+    color: #236FC8;
+    margin-top: 10px;
+    font-weight: bolder;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.records-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.records-table th,
+.records-table td {
+    border: none; 
+    padding: 10px;
+    text-align: center;
+}
+
+.records-table thead {
+    background-color: #F7F8FC;
+    color: #333333;
+}
+
+.records-table th:first-child,
+.records-table th:last-child {
+    font-size: 17px;
+}
+
+
+.records-table tr:hover {
+    background-color: #c8d2e7;
+}
+
+.records-table .even {
+    background-color: #ffffff;
+}
+
+.records-table .odd {
+    background-color: #F7F8FC;;
+}
+
+.view-button {
+    background-color: #236FC8;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 20px; 
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px; 
+}
+
+.view-button:hover {
+    background-color: #1A4F99;
+}
+
+
+
+
+
+/* Media Queries */
+
+
+@media screen and (max-width: 1024px) {
+    .records-table th:nth-child(3),
+    .records-table td:nth-child(3),
+    .records-table th:nth-child(4),
+    .records-table td:nth-child(4) {
+        display: none; 
+    }
+
+    .records-container{
+        margin-left: 80px;
+        max-width: 900px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .records-container{
+        max-width: 600px; 
+        margin: 0 auto;
+
+    }
+
+    .records-table {
+        max-width: 100%;
+    }
+    
+    .records-table th:nth-child(5),
+    .records-table td:nth-child(5),
+    .records-table th:nth-child(1),
+    .records-table td:nth-child(1) {
+        display: none; 
+    }
+
+    .records-title {
+        margin-top: 20px;
+        font-size: 20px; 
+    }
+
+    .records-table th:nth-child(2),
+    .records-table th:nth-child(6){
+        font-size: 14px;
+    }
+
+    .records-table td {
+        font-size: 12px;
+    }
+
+    .records-table th,
+    .records-table td, .records-table tr{
+        border: none; 
+    }
+
+    .view-button {
+        padding: 6px 8px; 
+        font-size: 12px; 
+    }
+
+
+}
+
+@media screen and (max-width: 500px) {
+
+    .records-container{
+        max-width: 600px;
+        margin-left: 50px;
+    }
+
+    .records-title {
+        margin-left: 50px;
+        font-size: 18px;
+    }
+
+    .records-table th,
+    .records-table td, 
+    .records-table tr,
+    .records-table {
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    .records-container thead th {
+        font-size: 12px;
+    }
+
+    .records-table th,
+    .records-table td {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+
+@media screen and (max-width: 300px) {
+
+    .nav-link.staff{
+        display: none;
+    }
+
+    .view-button {
+        padding: 4px 8px; 
+        font-size: 12px; 
+    }
+    
+}
+

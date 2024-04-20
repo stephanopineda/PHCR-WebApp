@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% load static %}
+    
+    <link rel="stylesheet"  href="{% static 'styles/patient/user_dashboard.css' %}">
+
+<body>
+
+	<div class="sidebar">
+		<div class="logo-details">
+			<div class="logo_name">Patient</div>
+			<i class='bx bx-menu' id="btn"></i>
+		</div>
+		<ul class="nav-list">
+			<li>
+				<a href="#" data-page-url="{% url 'patient_profile' %}">
+					<i class='bx bx-user'></i>
+					<span class="links_name">Profile</span>
+				</a>
+				<span class="tooltip">Profile</span>
+			</li>
+	
+			<li>
+				<a href="#" data-page-url="{% url 'patient_record' %}">
+					<i class='bx bx-file'></i>
+					<span class="links_name">Record</span>
+				</a>
+				<span class="tooltip">Record</span>
+			</li>
+		</ul>
+	</div>
+	
+	<div id="pageContent"></div>
+	
+	<script src="{% static 'js/patient/user_dashboard.js' %}"></script>
+
+{% endblock %}

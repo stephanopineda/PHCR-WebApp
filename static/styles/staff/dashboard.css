@@ -1,0 +1,140 @@
+/* dashboard.css */
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    margin-left: 110px;
+    margin-right: 50px;
+}
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #ffffff;
+}
+
+.dashboard-title {
+    font-size: 18px;
+    padding-top: 40px;
+    color: #236FC8;
+    margin-top: 30px;
+    margin-left: 10px;
+    text-align: center;
+    align-items: center;
+    
+}
+
+.dashboard-item {
+    flex: 0 0 calc(33.33% - 20px); 
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0.1, 0, 0.2);
+    text-align: center; 
+}
+
+.dashboard-item:hover {
+    background: #E9EDF2;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+.dashboard-item h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #24344B;
+    font-weight: bold;
+}
+
+.dashboard-item .value {
+    font-size: 24px;
+    color: #236FC8;
+}
+
+.dashboard-item i {
+    font-size: 36px; 
+    margin-bottom: 10px;
+    color: #24344B;
+}
+
+.total-patients { border-color: #24344B; }
+.pending-forms { border-color: #24344B; }
+.total-submitted-forms { border-color: #24344B; }
+.total-child-patients { border-color: #24344B; }
+.total-adolescent-patients { border-color: #24344B; }
+.total-adult-patients { border-color: #24344B; }
+
+
+
+
+/* For tablets (768px and below) */
+
+@media (max-width: 768px) {
+    .dashboard-title{
+        font-size: 18px;
+    }
+
+    .dashboard {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .dashboard-item {
+        flex: 0 0 calc(50% - 10px); 
+        margin: 5px;
+    }
+
+    .dashboard-item h2 {
+        font-size: 16px;
+    }
+    
+    .dashboard-item .value {
+        font-size: 20px;
+    }
+    
+    .dashboard-item i {
+        font-size: 30px;
+    }
+}
+
+/* For mobile devices (600px and below) */
+
+@media (max-width: 600px) {
+    
+    .dashboard {
+        flex-direction: column; 
+        align-items: center;
+    }
+
+    
+    .dashboard-item {
+        width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 10px; 
+    }
+
+    
+    .dashboard-item h2 {
+        font-size: 14px;
+    }
+    
+    .dashboard-item .value {
+        font-size: 18px;
+    }
+    
+    .dashboard-item i {
+        font-size: 24px;
+    }
+}
+
+

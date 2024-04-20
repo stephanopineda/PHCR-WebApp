@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/patient/choose_form.css' %}">
+
+<div class="form-container">
+    <h2>Data Privacy Notice</h2>
+    <p>The implementation of this health assessment tool, together with continuous reminders to strictly adhere to minimum public health standards, is our way of ensuring that the goal will be achieved. We also observe and protect the data privacy of our visitors in accordance with the Data Privacy Law R.A. 10173.</p>
+    <p>All information will be strictly treated with confidentiality.</p>
+
+    <form id="form"  method="post">
+        {% csrf_token %}
+        <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+        <label for="acceptTerms">I accept the Terms and Conditions.</label><br>
+        <input type="checkbox" id="dontAccept" name="dontAccept">
+        <label for="dontAccept">I don't accept</label><br>
+        
+        <br>
+        <br>
+
+        <p>Please choose your form: </p>
+        <a href="{% url 'child_form' %}" class="form-link">Child</a>
+        <a href="{% url 'adult_form' %}" class="form-link">Adult</a>
+        <a href="{% url 'pediatric_form' %}" class="form-link">Pediatric</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var acceptCheckbox = document.getElementById("acceptTerms");
+        var dontAcceptCheckbox = document.getElementById("dontAccept");
+
+        dontAcceptCheckbox.addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById("form").action = "{% url 'user_dashboard' %}";
+                document.getElementById("form").submit();
+            }
+        });
+
+        acceptCheckbox.addEventListener("change", function() {
+            if (this.checked) {
+                dontAcceptCheckbox.checked = false;
+            }
+        });
+    });
+</script>
+
+{% endblock %}

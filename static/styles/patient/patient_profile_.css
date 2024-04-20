@@ -1,0 +1,218 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.profile-page {
+  min-height: 100vh;
+  padding-top: 5rem;
+  background-color: #ffff;
+}
+
+.edit-profile {
+  font-size: 14px;
+  background-color: #1A4F99;
+  color: #FFFFFF;
+  padding: 12px 20px; 
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 85%;
+}
+
+.edit-profile:hover {
+  background-color: #236FC8;
+}
+
+.profile-page .content {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  margin: auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+  
+}
+
+.profile-page .content__cover {
+  position: relative;
+}
+
+.profile-page .content__avatar {
+  width: 12rem;
+  height: 12rem;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, 50%);
+  background: #ffff url("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png") center center no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+}
+
+.profile-page .content__title {
+  margin-top: 4.5rem;
+  text-align: center;
+}
+
+.profile-page .content__title h1 {
+  font-size: 2.4rem;
+}
+
+
+.profile-info {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.profile-info h2 {
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 1.2rem;
+  color: #236FC8;
+  box-shadow:  0 5px 15px rgba(0,0,0,0.07);
+}
+
+.info-item {
+  margin: 15px;
+  text-align: center; 
+}
+
+.personal-info,
+.medical-info {
+  box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+  border-radius: 10px;
+  padding-top: 20px;
+}
+
+
+
+label {
+  font-weight: bold;
+  color: #555;
+}
+
+  /* Responsive Styles */
+
+@media only screen and (max-width: 768px) {
+
+  .profile-info {
+    margin-left: 42px;
+  }
+
+  .profile-info {
+    margin-top: 15px;
+    display: grid;
+  }
+  
+  .profile-page .content__avatar {
+    width: 7rem;
+    height: 7rem;
+    position: absolute;
+    bottom: 0;
+    left: 55%;
+  }
+
+  .profile-page .content__title {
+    margin-top: 50px;
+    margin-left: 45px;
+  }
+  
+  .profile-page .content__title h1 {
+    font-size: 24px;
+  }
+
+  .edit-profile {
+    font-size: 10px;
+    padding: 5px 5px; 
+  }
+  
+  .edit-profile span {
+    display: none;  }
+
+  label {
+      font-size: 13px;
+  }
+
+  .info-item {
+    font-size: 13px;
+  }
+
+  .personal-info h2 , 
+  .medical-info h2 {
+    font-size: 14px;
+    margin-top: 2px;
+  }
+}
+
+  
+
+@media only screen and (max-width: 600px) {
+  .profile-page {
+    padding-top: 3rem;
+  }
+
+  .content__avatar {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .content__title h1 {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .content {
+    padding: 1rem;
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .profile-page {
+    padding-top: 3rem;
+  }
+
+  .content__avatar {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .content__title h1 {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .content {
+    padding: 1rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
