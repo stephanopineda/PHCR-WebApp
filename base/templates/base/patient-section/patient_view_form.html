@@ -5,6 +5,7 @@
 </style>
 
 <div class="hide-on-pdf">
+
 {% include 'main.html' %}
 
 {% block content %}
@@ -23,10 +24,12 @@
 {% endif %}
 
 {% if not request.user.is_staff %}
+        <a href="{% url 'patient_update_form' form_id=form.form_id %}" class="btn btn-success">Edit</a>
+     {% if form.status == 'Verified' %}
     <div>
         <a href="{% url 'generate_pdf' form_id=form.form_id %}" class="btn btn-primary">Generate PDF</a>
-        <a href="{% url 'patient_update_form' form_id=form.form_id %}" class="btn btn-success">Edit</a>
     </div>
+    {% endif %}
 {% endif %}
 
 </div>
