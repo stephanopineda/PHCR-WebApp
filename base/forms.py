@@ -21,7 +21,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user', 'age']
 
 class EconomicNumbersForm(forms.ModelForm):
     class Meta:
@@ -34,6 +34,11 @@ class SocialHistoryForm(forms.ModelForm):
         model = SocialHistory
         fields = '__all__'
         exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.instance.is_smoker():
+            self.fields['cigarette_sticks_per_day'].widget = forms.HiddenInput()
 
 class MedicalHistoryForm(forms.ModelForm):
     class Meta:

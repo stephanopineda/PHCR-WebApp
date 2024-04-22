@@ -80,7 +80,14 @@ def logout_client(request):
 @login_required(login_url='home')
 def user_dashboard(request):
     user = User.objects.get(id=request.user.id)   
-    context = {user: 'user'}
+    user_profile = UserProfile.objects.filter(user=user).last()
+    economic_numbers = EconomicNumbers.objects.filter(user=user).last()
+    context = {
+        'user': user,
+        'user_profile': user_profile,
+        'economic_numbers': economic_numbers,
+        user: 'user'
+    }
     return render(request, 'base/user_dashboard.html', context)
 
 @login_required(login_url='login')
@@ -93,6 +100,7 @@ def patient_profile(request):
         'user_profile': user_profile,
         'economic_numbers': economic_numbers,
     }
+
     return render(request, 'base/patient-section/patient_profile.html', context)
 
 @login_required(login_url='login')
@@ -102,6 +110,13 @@ def patient_record(request):
     context = {'forms': forms}
     return render(request, 'base/patient-section/patient_record.html', context)
 
+def data_privacy(request):
+    if request.method == 'POST':
+        if request.POST.get('acceptTerms') == 'accept':
+            return redirect('choose_form')
+        elif request.POST.get('acceptTerms') == 'decline':
+            return redirect('user_dashboard')
+    return render(request, 'base/patient-section/data_privacy.html')
 
 # STAFF DASHBOARD
 
@@ -118,10 +133,12 @@ def staff_login_required(view_func):
 
 @staff_login_required
 def staff_dashboard(request):
+    unverified_forms = Form.objects.filter(status='Unverified')
+    context = {'unverified_forms': unverified_forms}
     total_users = User.objects.count()
     total_patients = User.objects.filter(is_staff=False).count()
     total_staffs = User.objects.filter(is_staff=True, is_superuser=False).count()
-    context = {'total_users': total_users, 'total_patients': total_patients, 'total_staffs': total_staffs}
+    context = {'total_users': total_users, 'total_patients': total_patients, 'total_staffs': total_staffs, 'unverified_forms': unverified_forms}
     return render(request, 'base/staff_dashboard.html', context)
 
 @staff_login_required
@@ -200,7 +217,7 @@ def learn_more(request):
 
 #PATIENT FORMS
 
-@login_required(login_url='login')
+@login_required(login_url='data_privacy')
 def choose_form_view(request):
     return render(request, 'base/patient-section/choose_form.html')
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from datetime import date
 
 class User(AbstractUser):
     username = models.CharField(unique=True, max_length=200)
@@ -15,39 +16,58 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     age = models.IntegerField(blank=True, null=True)
     sex = models.CharField(max_length=6, choices=[('male', 'Male'), ('female', 'Female')])
-    civil_status = models.CharField(max_length=50, blank=True, default='')
+
+    CIVIL_STATUS_CHOICES = [
+        ('married', 'Married'),
+        ('single', 'Single'),
+        ('divorced', 'Divorced'),
+        ('widowed', 'Widowed'),
+    ]
+
+    civil_status = models.CharField(max_length=50, choices=CIVIL_STATUS_CHOICES, blank=True, default='')
     religion = models.CharField(max_length=50, blank=True, default='')
     address = models.CharField(max_length=100, blank=True, default='')
     educational_attainment = models.CharField(max_length=100, blank=True, default='')
     occupation = models.CharField(max_length=100, blank=True, default='')
+
+    def save(self, *args, **kwargs):
+        if not self.age:
+            today = date.today()
+            birth_date = self.user.birth_date  
+            delta_in_years = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+            self.age = delta_in_years
+        super().save(*args, **kwargs)
 
 class EconomicNumbers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     philhealth_num = models.CharField(max_length=15, blank=True)
     nhts_num = models.CharField(max_length=50, blank=True)
     patient_4ps_member = models.BooleanField(default=False)
-    brgy_num = models.CharField(max_length=50, blank=True)
+    brgy_num = models.CharField(max_length=30, blank=True)
     family_num = models.CharField(max_length=50, blank=True)
 
 class SocialHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    smoker = models.BooleanField(default=False)
     alcohol_intake = models.BooleanField(default=False)
     prohibited_drug = models.BooleanField(default=False)
-    cigarette_sticks = models.IntegerField(blank=True, null=True, default=0)
+    smoker = models.BooleanField(default=False)
+    cigarette_sticks_per_day = models.IntegerField(blank=True, null=True, default=0)
+
+    def is_smoker(self):
+        return self.smoker
 
 class MedicalHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     diabetes = models.BooleanField(default=False)
     asthma = models.BooleanField(default=False)
-    hpn = models.BooleanField(default=False)
-    ptb = models.BooleanField(default=False)
+    hypertension = models.BooleanField(default=False)
+    pulmonary_tubercolosis = models.BooleanField(default=False)
     cancer = models.BooleanField(default=False)
-    cough = models.BooleanField(default=False)
+    cough_2_weeks = models.BooleanField(default=False)
     other_medical_history = models.CharField(max_length=255, blank=True)
     medication_taken = models.CharField(max_length=255, blank=True)
     family_planning = models.BooleanField(default=False)
-    adult_immunization = models.CharField(max_length=100, blank=True)
+    immunization = models.CharField(max_length=100, blank=True)
     immunization_date = models.DateField(blank=True, null=True, default="")
 
 class Form(models.Model):
@@ -60,11 +80,11 @@ class Form(models.Model):
 
 class PediatricDetails(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    mother_name = models.CharField(max_length=50)
-    father_name = models.CharField(max_length=50)
-    mother_age = models.CharField(max_length=50)
-    father_age = models.CharField(max_length=50)
-    birth_order = models.CharField(max_length=5)
+    mother_name = models.CharField(max_length=50, blank=True)
+    father_name = models.CharField(max_length=50, blank=True)
+    mother_age = models.IntegerField(blank=True, null=True)
+    father_age = models.IntegerField(blank=True, null=True)
+    birth_order = models.IntegerField(blank=True, null=True)
 
 class ImmunizationHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -91,18 +111,26 @@ class ImmunizationHistory(models.Model):
 
 class ChildDetails(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    place_of_birth = models.CharField(max_length=50)
-    birth_weight = models.FloatField()
-    birth_order = models.CharField(max_length=5)
-    mother_name = models.CharField(max_length=50)
-    birth_length = models.FloatField()
-    birth_time = models.CharField(max_length=50)
-    del_type_nsd = models.BooleanField(default=False)
-    del_type_cs = models.BooleanField(default=False)
-    del_type_dos = models.BooleanField(default=False)
-    exclusively_bf = models.BooleanField(default=False)
-    exclusively_mixed = models.BooleanField(default=False)
-    exclusively_milk = models.BooleanField(default=False)
+    place_of_birth = models.CharField(max_length=50, blank=True)
+    birth_weight = models.FloatField(blank=True)
+    birth_order = models.IntegerField(blank=True, null=True)
+    mother_name = models.CharField(max_length=255, blank=True)
+    birth_length_in_inches = models.FloatField(blank=True, null=True)
+    birth_time = models.CharField(max_length=10, blank=True)
+
+    DELIVERY_TYPE_CHOICES = [
+        ('NSD', 'Normal Spontaneous Delivery'),
+        ('CS', 'Caesarean Section'),
+        ('DOS', 'Delivery Operative Suction'),
+    ]
+    BREASTFEEDING_CHOICES = [
+        ('BF', 'Exclusively Breastfed'),
+        ('MIXED', 'Exclusively Mixed Feeding'),
+        ('MILK', 'Exclusively Formula Milk'),
+    ]
+
+    delivery_type = models.CharField(max_length=10, choices=DELIVERY_TYPE_CHOICES, blank=True, default='')
+    breastfeeding_type = models.CharField(max_length=10, choices=BREASTFEEDING_CHOICES, blank=True, default='')
     
 class NewbornStatus(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

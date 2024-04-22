@@ -19,6 +19,7 @@ urlpatterns = [
     
     path('patientprofile/', views.patient_profile, name="patient_profile"),
     path('patientrecord/', views.patient_record, name="patient_record"),
+    path('data_privacy/', views.data_privacy, name='data_privacy'),
 
     path('choose_form/', views.choose_form_view, name='choose_form'),
     path('adultform/', views.adult_form, name="adult_form"),

@@ -14,11 +14,11 @@
                 <div class="content__bull"></div>
             </div>
     
-        <button class="edit-profile">
-            <i class="fa-solid fa-pen-to-square"></i>
-            <span>Edit</span>
-        </button>
-        
+            <a href="{% url 'patient_record' %}" class="edit-profile">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>View</span>
+            </a>
+            
         <div class="content__title">
             <h1>{{ user.first_name }} {{ user.last_name }}</h1>
         </div>
