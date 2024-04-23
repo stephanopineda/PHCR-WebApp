@@ -1,19 +1,22 @@
 body {
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  background-color: #f0f0f0;
+  background-color: #ffff;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 .profile-page {
-  min-height: 100vh;
+  overflow-y: auto;
+  max-height: calc(100vh - 15px - 78px);
   padding-top: 5rem;
   background-color: #ffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.profile-page a{
+  text-decoration: none;
 }
 
 .edit-profile {
@@ -42,8 +45,9 @@ body {
   margin: auto;
   padding: 2rem;
   background: #fff;
+  border: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   
 }
 
@@ -62,7 +66,7 @@ body {
   background: #ffff url("https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png") center center no-repeat;
   background-size: cover;
   border-radius: 50%;
-  box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1),  0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-page .content__title {
@@ -97,12 +101,11 @@ body {
 
 .personal-info,
 .medical-info {
-  box-shadow: 0 15px 35px rgba(50,50,93,0.1), 0 5px 15px rgba(0,0,0,0.07);
+  border: 1px solid #ccc;
   border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding-top: 20px;
 }
-
-
 
 label {
   font-weight: bold;
@@ -113,8 +116,9 @@ label {
 
 @media only screen and (max-width: 768px) {
 
-  .profile-info {
-    margin-left: 42px;
+  .profile-page {
+    margin-top: 2px;
+    margin-left: 60px;
   }
 
   .profile-info {
@@ -127,16 +131,15 @@ label {
     height: 7rem;
     position: absolute;
     bottom: 0;
-    left: 55%;
+    left: 50%;
   }
 
   .profile-page .content__title {
     margin-top: 50px;
-    margin-left: 45px;
   }
   
   .profile-page .content__title h1 {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .edit-profile {
@@ -148,11 +151,11 @@ label {
     display: none;  }
 
   label {
-      font-size: 13px;
+      font-size: 12px;
   }
 
   .info-item {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .personal-info h2 , 
@@ -165,45 +168,21 @@ label {
   
 
 @media only screen and (max-width: 600px) {
+  
   .profile-page {
-    padding-top: 3rem;
+    padding-top: 2rem;
   }
 
   .content__avatar {
-    width: 8rem;
-    height: 8rem;
+    width: 50px;
+    height: 50px;
   }
 
-  .content__title h1 {
-    font-size: 2rem;
-  }
 }
 
-@media only screen and (max-width: 480px) {
-  .content {
-    padding: 1rem;
-  }
-}
-
-
-@media only screen and (max-width: 600px) {
-  .profile-page {
-    padding-top: 3rem;
-  }
-
-  .content__avatar {
-    width: 8rem;
-    height: 8rem;
-  }
-
-  .content__title h1 {
-    font-size: 2rem;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .content {
-    padding: 1rem;
+@media only screen and (max-width: 375px) {
+  .edit-profile {
+    padding: 3px;
   }
 }
 
