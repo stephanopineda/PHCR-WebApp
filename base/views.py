@@ -9,9 +9,7 @@ from .forms import RegistrationForm, UserProfileForm, EconomicNumbersForm, Socia
 from functools import wraps
 from xhtml2pdf import pisa
 from datetime import datetime, timedelta
-from django.db.models import Q
-
-
+from django.db.models import Q 
 
 # Home
 def home(request):
@@ -193,8 +191,10 @@ def unverifiedforms(request):
     context = {'unverified_forms': unverified_forms}
     return render(request, 'base/staff-section/unverifiedforms.html', context)
 
+
 @staff_login_required
 def view_records(request):
+    search_query = request.GET.get('search_query')
     verified_forms = Form.objects.filter(status='Verified')
 
     verified_forms_data = []
@@ -208,7 +208,7 @@ def view_records(request):
                     'patient_name': patient_name,
                     'record_type': form.record_type,
                     'birthdate': patient_data.user.birth_date,
-                    'form_id':form.id,
+                    'form_id': form.id,
                 })
         elif form.record_type == 'Child':
             patient_data = Child.objects.filter(form=form).first()
@@ -219,7 +219,7 @@ def view_records(request):
                     'patient_name': patient_name,
                     'record_type': form.record_type,
                     'birthdate': patient_data.user.birth_date,
-                    'form_id':form.id,
+                    'form_id': form.id,
                 })
         elif form.record_type == 'Pediatric':
             patient_data = Pediatric.objects.filter(form=form).first()
@@ -230,11 +230,16 @@ def view_records(request):
                     'patient_name': patient_name,
                     'record_type': form.record_type,
                     'birthdate': patient_data.user.birth_date,
-                                        'form_id':form.id,
+                    'form_id': form.id,
                 })
 
-    context = {'verified_forms_data': verified_forms_data}
+    # Filter records based on search query
+    if search_query:
+        verified_forms_data = [data for data in verified_forms_data if search_query.lower() in data['patient_name'].lower()]
+
+    context = {'verified_forms_data': verified_forms_data, 'search_query': search_query}
     return render(request, 'base/staff-section/view_precords.html', context)
+
 
 @staff_login_required
 def manage_users(request):

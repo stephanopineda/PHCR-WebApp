@@ -8,6 +8,23 @@
 
 <body>
 
+    <a href="{% url 'staff_dashboard' %}" class="back-button">Back to Staff Dashboard</a>
+    
+    {% url 'staff_dashboard' as staff_dashboard_url %}
+
+{% if request.path == staff_dashboard_url %}
+<form method="GET" action="{% url 'view_records' %}" class="search-form" target="_blank">
+    <input type="text" name="search_query" placeholder="Search by patient name">
+    <button type="submit">Search</button>
+</form>
+{% else %}
+    <form method="GET" action="{% url 'view_records' %}" class="search-form">
+        <input type="text" name="search_query" placeholder="Search by patient name">
+        <button type="submit">Search</button>
+    </form>
+{% endif %}
+
+    
     <div class="records-container">
         <h2 class="records-title">Patient Records</h2>
         <table class="records-table">
