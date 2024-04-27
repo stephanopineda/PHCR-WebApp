@@ -1,12 +1,13 @@
 body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    background-color: #f0f0f0;
+    background-color: #ffff;
 }
 
 .form-container {
+    margin-left: 80px;
     background-color: #ffff;
-    max-width: 1350px; 
+    max-width: 1200px; 
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -78,11 +79,23 @@ body {
     background-color: #1A4F99;
 }
 
+.forms-table a {
+    text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+
+    .form-container {
+        margin-top: 2px;
+    }
+
+}
 
 @media (max-width: 768px) {
-    
-    .body {
-        background-color: #ffff;
+
+    .form-container {
+        margin-top: 2px;
+        margin-left: 60px;
     }
 
     .form-title {
@@ -92,10 +105,6 @@ body {
     .forms-table th:first-child,
     .forms-table th:last-child {
         font-size: 14px;
-    }
-
-    .forms-table {
-        margin-left: 20px;
     }
 
     .forms-table td {
@@ -109,9 +118,8 @@ body {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .form-title {
-        margin-left: 40px;
         font-size: 18px; 
     }
 
@@ -120,8 +128,9 @@ body {
         font-size: 12px; 
     }
 
-    .forms-table th {
-        font-size: 54px;
+    .forms-table th:first-child,
+    .forms-table th:last-child {
+        font-size: 14px;
     }
     
     .forms-table td {

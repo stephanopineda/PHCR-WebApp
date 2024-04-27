@@ -1,7 +1,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    background-color: #f0f0f0;
+    background-color: #ffff;
 }
 
 .search-filter-container {
@@ -77,27 +77,28 @@ body {
     font-size: 16px;
 }
 
-.record-container {
-    background-color: #ffffff;
-    max-width: 1350px; 
+.container {
+    max-width: 1200px; 
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;  
+    margin-top: 30px;
+    background-color: #ffff;  
 }
 
-.records-container {
-    background-color: #ffffff;
-    max-width: 1800px; 
+.record-container {
+    max-width: 1200px; 
     margin: 0 auto;
+    padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;  
-    padding: 20px;
+    margin-top: 30px;
+    background-color: #ffff;  
 }
+
 
 .records-title {
     color: #236FC8;
@@ -108,8 +109,10 @@ body {
 }
 
 .records-table {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
 }
 
@@ -158,54 +161,50 @@ body {
     background-color: #1A4F99;
 }
 
+.records-table a {
+    text-decoration: none;
+}
+
 
 
 
 
 /* Media Queries */
 
-
-@media screen and (max-width: 1024px) {
-    .records-table th:nth-child(3),
-    .records-table td:nth-child(3),
-    .records-table th:nth-child(4),
-    .records-table td:nth-child(4) {
-        display: none; 
+@media screen and (max-width: 1365px) {
+    .records-table th:nth-child(1),
+    .records-table td:nth-child(1) {
+        display: none;
     }
 
     .records-container{
         margin-left: 80px;
-        max-width: 900px;
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+    .records-table th:nth-child(3),
+    .records-table td:nth-child(3) {
+        display: none; 
+    }
+
+    .container{
+        margin-top: 2px;
     }
 
 }
 
 @media screen and (max-width: 768px) {
 
-    .records-container{
-        max-width: 600px; 
-        margin: 0 auto;
-
-    }
-
-    .records-table {
-        max-width: 100%;
-    }
-    
-    .records-table th:nth-child(5),
-    .records-table td:nth-child(5),
-    .records-table th:nth-child(1),
-    .records-table td:nth-child(1) {
-        display: none; 
-    }
 
     .records-title {
-        margin-top: 20px;
-        font-size: 20px; 
+        font-size: 24px; 
     }
 
     .records-table th:nth-child(2),
-    .records-table th:nth-child(6){
+    .records-table th:nth-child(4),
+    .records-table th:nth-child(5){
         font-size: 14px;
     }
 
@@ -219,23 +218,26 @@ body {
     }
 
     .view-button {
-        padding: 6px 8px; 
+        padding: 3px 8px; 
         font-size: 12px; 
     }
 
 
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
 
     .records-container{
-        max-width: 600px;
-        margin-left: 50px;
+        margin-left: 60px;
     }
 
     .records-title {
-        margin-left: 50px;
         font-size: 18px;
+    }
+
+    .records-table th:nth-child(4),
+    .records-table td:nth-child(4) {
+        display: none; 
     }
 
     .records-table th,
@@ -250,24 +252,11 @@ body {
         font-size: 12px;
     }
 
-    .records-table th,
     .records-table td {
-        padding-left: 5px;
-        padding-right: 5px;
+        font-size: 12px;
+        padding: 8px; 
     }
+
 }
 
-
-@media screen and (max-width: 300px) {
-
-    .nav-link.staff{
-        display: none;
-    }
-
-    .view-button {
-        padding: 4px 8px; 
-        font-size: 12px; 
-    }
-    
-}
 

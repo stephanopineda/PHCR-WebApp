@@ -1,7 +1,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    background-color: #f0f0f0;
+    background-color: #ffff;
 }
 
 
@@ -107,8 +107,6 @@ body {
     
 }
 
-
-
 .view-button {
     background-color: #236FC8;
     color: #FFFFFF;
@@ -130,6 +128,7 @@ body {
 @media only screen and (max-width: 768px) {
 
     .record-container {
+        margin-top: 2px;
         margin-left: 60px;
     }
     
@@ -171,12 +170,6 @@ body {
 }
 
 @media only screen and (max-width: 405px) {
-
-    .record-container .add-record {
-        display: none;
-    }
-
-    
 
     .records-table th:nth-child(4),
     .records-table td:nth-child(4) {
