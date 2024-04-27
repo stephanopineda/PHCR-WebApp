@@ -4,10 +4,14 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.template.loader import get_template
-from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, Adult, Child,  Form, Pediatric, ImmunizationHistory, PediatricDetails, ChildDetails, NewbornStatus
-from .forms import RegistrationForm, UserProfileForm, EconomicNumbersForm, SocialHistoryForm, MedicalHistoryForm,  ChildDetailsForm, NewbornStatusForm, PediatricDetailsForm, ImmunizationHistoryForm
+from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, Adult, Child,  Form, Pediatric, ImmunizationHistory, PediatricDetails, ChildDetails, NewbornStatus, DoctorOrder, NurseNotes, VitalSigns
+from .forms import RegistrationForm, UserProfileForm, EconomicNumbersForm, SocialHistoryForm, MedicalHistoryForm,  ChildDetailsForm, NewbornStatusForm, PediatricDetailsForm, ImmunizationHistoryForm, DoctorOrderForm, NurseNotesForm, VitalSignsForm
 from functools import wraps
 from xhtml2pdf import pisa
+from datetime import datetime, timedelta
+from django.db.models import Q
+
+
 
 # Home
 def home(request):
@@ -135,10 +139,10 @@ def staff_login_required(view_func):
 def staff_dashboard(request):
     unverified_forms = Form.objects.filter(status='Unverified')
     context = {'unverified_forms': unverified_forms}
-    total_users = User.objects.count()
-    total_patients = User.objects.filter(is_staff=False).count()
-    total_staffs = User.objects.filter(is_staff=True, is_superuser=False).count()
-    context = {'total_users': total_users, 'total_patients': total_patients, 'total_staffs': total_staffs, 'unverified_forms': unverified_forms}
+    # total_users = User.objects.count()
+    # total_patients = User.objects.filter(is_staff=False).count()
+    # total_staffs = User.objects.filter(is_staff=True, is_superuser=False).count()
+    # context = {'total_users': total_users, 'total_patients': total_patients, 'total_staffs': total_staffs, 'unverified_forms': unverified_forms}
     return render(request, 'base/staff_dashboard.html', context)
 
 @staff_login_required
@@ -146,8 +150,37 @@ def dashboard(request):
     total_users = User.objects.count()
     total_patients = User.objects.filter(is_staff=False).count()
     total_staffs = User.objects.filter(is_staff=True, is_superuser=False).count()
-    context = {'total_users': total_users, 'total_patients': total_patients, 'total_staffs': total_staffs}
+    pending_forms_count = Form.objects.filter(status='Unverified').count()
+    inactive_users_count = User.objects.filter(is_active=False).count()
+    submitted_forms_count = Form.objects.filter(status='Verified').count()
+
+    # Calculate age groups of patients
+    today = datetime.today()
+    one_year_ago = today - timedelta(days=365)
+    child_patients = User.objects.filter(
+        Q(is_staff=False) & Q(birth_date__gte=one_year_ago)
+    ).count()
+    pediatric_patients = User.objects.filter(
+        Q(is_staff=False) & Q(birth_date__lt=one_year_ago) & Q(birth_date__gte=today - timedelta(days=365*19))
+    ).count()
+    adult_patients = User.objects.filter(
+        Q(is_staff=False) & Q(birth_date__lt=today - timedelta(days=365*19))
+    ).count()
+
+    context = {
+        'total_users': total_users,
+        'total_patients': total_patients,
+        'total_staffs': total_staffs,
+        'pending_forms_count': pending_forms_count,
+        'inactive_users_count': inactive_users_count,
+        'submitted_forms_count': submitted_forms_count,
+        'child_patients': child_patients,
+        'pediatric_patients': pediatric_patients,
+        'adult_patients': adult_patients,
+    }
     return render(request, 'base/staff-section/dashboard.html', context)
+
+
 
 @staff_login_required
 def data_dashboard(request):
@@ -175,7 +208,7 @@ def view_records(request):
                     'patient_name': patient_name,
                     'record_type': form.record_type,
                     'birthdate': patient_data.user.birth_date,
-                    'form_id':form.form_id,
+                    'form_id':form.id,
                 })
         elif form.record_type == 'Child':
             patient_data = Child.objects.filter(form=form).first()
@@ -186,7 +219,7 @@ def view_records(request):
                     'patient_name': patient_name,
                     'record_type': form.record_type,
                     'birthdate': patient_data.user.birth_date,
-                    'form_id':form.form_id,
+                    'form_id':form.id,
                 })
         elif form.record_type == 'Pediatric':
             patient_data = Pediatric.objects.filter(form=form).first()
@@ -197,7 +230,7 @@ def view_records(request):
                     'patient_name': patient_name,
                     'record_type': form.record_type,
                     'birthdate': patient_data.user.birth_date,
-                                        'form_id':form.form_id,
+                                        'form_id':form.id,
                 })
 
     context = {'verified_forms_data': verified_forms_data}
@@ -224,10 +257,6 @@ def choose_form_view(request):
 @login_required(login_url='login')
 def child_form(request):
 
-    existing_child = Child.objects.filter(user=request.user).first()
-    if existing_child:
-        return HttpResponse("You have already submitted the child form.")
-
     if request.method == 'POST':
         user_profile_form = UserProfileForm(request.POST)
         economic_numbers_form = EconomicNumbersForm(request.POST)
@@ -252,11 +281,15 @@ def child_form(request):
             newborn_status.user = request.user
             newborn_status.save()
 
-            form_instance, created = Form.objects.update_or_create(
+            doctor_order = None 
+            nurse_notes = None 
+            vital_signs = None
+
+            form_instance = Form.objects.create(
                 user=request.user,
                 title="Child Form",
                 record_type="Child",
-                defaults={"status": "Unverified"}  
+                status="Unverified"  
             )
 
             child_patient = Child.objects.update_or_create(
@@ -265,6 +298,9 @@ def child_form(request):
                 economic_numbers=economic_numbers,
                 child_details=child_details,
                 newborn_status=newborn_status,
+                doctor_order = doctor_order,
+                nurse_notes = nurse_notes,
+                vital_signs = vital_signs,
                 form=form_instance
             )
 
@@ -287,10 +323,6 @@ def child_form(request):
 
 @login_required(login_url='login')
 def pediatric_form(request):
-
-    existing_pediatric = Pediatric.objects.filter(user=request.user).first()
-    if existing_pediatric:
-        return HttpResponse("You have already submitted the pediatric form.")
 
     if request.method == 'POST':
         user_profile_form = UserProfileForm(request.POST)
@@ -326,11 +358,15 @@ def pediatric_form(request):
             immunization_history.user = request.user
             immunization_history.save()
 
-            form_instance, created = Form.objects.get_or_create(
+            doctor_order = None 
+            nurse_notes = None 
+            vital_signs = None
+
+            form_instance = Form.objects.create(
                 user=request.user,
                 title="Pediatric Form",
                 record_type="Pediatric",
-                defaults={"status": "Unverified"}  
+                status="Unverified"  
             )
 
             pediatric_patient = Pediatric.objects.create(
@@ -341,7 +377,11 @@ def pediatric_form(request):
                 medical_history=medical_history,
                 pediatric_details=pediatric_details,
                 immunization_history=immunization_history,
+                doctor_order = doctor_order,
+                nurse_notes = nurse_notes,
+                vital_signs = vital_signs,
                 form=form_instance
+
             )
 
             return redirect('user_dashboard')
@@ -368,10 +408,6 @@ def pediatric_form(request):
 @login_required(login_url='login')
 def adult_form(request):
 
-    existing_adult = Adult.objects.filter(user=request.user).first()
-    if existing_adult:
-        return HttpResponse("You have already submitted the adult form.")
-
     if request.method == 'POST':
         user_profile_form = UserProfileForm(request.POST)
         economic_numbers_form = EconomicNumbersForm(request.POST)
@@ -396,11 +432,15 @@ def adult_form(request):
             medical_history.user = request.user
             medical_history.save()
 
-            form_instance, created = Form.objects.get_or_create(
+            doctor_order = None 
+            nurse_notes = None 
+            vital_signs = None
+
+            form_instance = Form.objects.create(
                 user=request.user,
                 title="Adult Form",
                 record_type="Adult",
-                defaults={"status": "Unverified"}  
+                status="Unverified"  
             )
 
             adult_patient = Adult.objects.create(
@@ -409,6 +449,9 @@ def adult_form(request):
                 economic_numbers=economic_numbers,
                 social_history=social_history,
                 medical_history=medical_history,
+                doctor_order = doctor_order,
+                nurse_notes = nurse_notes,
+                vital_signs = vital_signs,
                 form=form_instance
             )
 
@@ -430,19 +473,109 @@ def adult_form(request):
     return render(request, 'base/patient-section/adult_form.html', context)
 
 
+@login_required(login_url='login')
+def add_doctor_order(request, form_id):
+    form_instance = get_object_or_404(Form, pk=form_id)
+    if DoctorOrder.objects.filter(id=form_id).exists():
+        existing_order = get_object_or_404(DoctorOrder, id=form_id)
+        doctor_order_form = DoctorOrderForm(request.POST or None, instance=existing_order)
+    else:
+        doctor_order_form = DoctorOrderForm(request.POST or None)
+    
+    if request.method == 'POST':
+        if doctor_order_form.is_valid():
+            doctor_order = doctor_order_form.save(commit=False)
+            doctor_order.user = form_instance.user
+            doctor_order.filled_by = request.user
+            doctor_order.save()
+            
+            form_instance.doctor_order = doctor_order
+            form_instance.save()
+            
+            if form_instance.record_type == 'Adult':
+                patient_instance = get_object_or_404(Adult, form=form_instance)
+                patient_instance.doctor_order = doctor_order
+                patient_instance.save()
+            elif form_instance.record_type == 'Pediatric':
+                patient_instance = get_object_or_404(Pediatric, form=form_instance)
+                patient_instance.doctor_order = doctor_order
+                patient_instance.save()
+            elif form_instance.record_type == 'Child':
+                patient_instance = get_object_or_404(Child, form=form_instance)
+                patient_instance.doctor_order = doctor_order
+                patient_instance.save()
+            
+            return redirect('staff_dashboard')  
+    
+    return render(request, 'base/staff-section/add_doctor_order.html', {'doctor_order_form': doctor_order_form})
+
+# Nurse Notes View
+@staff_login_required
+def add_nurse_notes(request, form_id):
+    form_instance = get_object_or_404(Form, pk=form_id)
+    
+    if NurseNotes.objects.filter(id=form_id).exists():
+        existing_notes = get_object_or_404(NurseNotes, id=form_id)
+        existing_vital_signs = get_object_or_404(VitalSigns, id=form_id)
+        nurse_notes_form = NurseNotesForm(request.POST or None, instance=existing_notes)
+        vital_signs_form = VitalSignsForm(request.POST or None, instance=existing_vital_signs)
+    else:
+        nurse_notes_form = NurseNotesForm(request.POST or None)
+        vital_signs_form = VitalSignsForm(request.POST or None)
+    
+    if request.method == 'POST':
+        if nurse_notes_form.is_valid() and vital_signs_form.is_valid():
+            nurse_notes = nurse_notes_form.save(commit=False)
+            nurse_notes.user = form_instance.user
+            nurse_notes.filled_by = request.user
+            nurse_notes.save()
+            
+            vital_signs = vital_signs_form.save(commit=False)
+            vital_signs.user = form_instance.user
+            vital_signs.filled_by = request.user
+            vital_signs.save()
+            
+            form_instance.nurse_notes = nurse_notes
+            form_instance.vital_signs = vital_signs
+            form_instance.save()
+            
+            if form_instance.record_type == 'Adult':
+                patient_instance = get_object_or_404(Adult, form=form_instance)
+                patient_instance.nurse_notes = nurse_notes
+                patient_instance.vital_signs = vital_signs
+                patient_instance.save()
+            elif form_instance.record_type == 'Pediatric':
+                patient_instance = get_object_or_404(Pediatric, form=form_instance)
+                patient_instance.nurse_notes = nurse_notes
+                patient_instance.vital_signs = vital_signs
+                patient_instance.save()
+            elif form_instance.record_type == 'Child':
+                patient_instance = get_object_or_404(Child, form=form_instance)
+                patient_instance.nurse_notes = nurse_notes
+                patient_instance.vital_signs = vital_signs
+                patient_instance.save()
+            
+            return redirect('staff_dashboard')  
+    
+    return render(request, 'base/staff-section/add_nurse_notes.html', {'nurse_notes_form': nurse_notes_form, 'vital_signs_form': vital_signs_form})
+
+
 #PATIENT CRUD
 
-@login_required(login_url='home')
+@staff_login_required 
 def patient_view_form(request, form_id):
     user = request.user
-    form = get_object_or_404(Form, pk=form_id, user=user)
+    form = Form.objects.get(pk=form_id, user=user)
 
     if form.record_type == 'Adult':
-        adult = get_object_or_404(Adult, form=form, user=user)
+        adult = Adult.objects.get(form=form, user=user)
         user_profile = adult.user_profile
         economic_numbers = adult.economic_numbers
         social_history = adult.social_history
         medical_history = adult.medical_history
+        doctor_order = adult.doctor_order
+        nurse_notes = adult.nurse_notes
+        vital_signs = adult.vital_signs
 
         context = {
             'form': form,
@@ -450,6 +583,9 @@ def patient_view_form(request, form_id):
             'economic_numbers': economic_numbers,
             'social_history': social_history,
             'medical_history': medical_history,
+            'doctor_order': doctor_order,
+            'nurse_notes' : nurse_notes,
+            'vital_signs': vital_signs
         }
 
     elif form.record_type == 'Child':
@@ -458,6 +594,9 @@ def patient_view_form(request, form_id):
         child_details = child.child_details
         newborn_status = child.newborn_status
         economic_numbers = child.economic_numbers
+        doctor_order = child.doctor_order
+        nurse_notes = child.nurse_notes
+        vital_signs = child.vital_signs
 
         context = {
             'form': form,
@@ -465,6 +604,9 @@ def patient_view_form(request, form_id):
             'child_details': child_details,
             'newborn_status': newborn_status,
             'economic_numbers': economic_numbers,
+            'doctor_order': doctor_order,
+            'nurse_notes' : nurse_notes,
+            'vital_signs': vital_signs
         }
 
     elif form.record_type == 'Pediatric':
@@ -475,6 +617,9 @@ def patient_view_form(request, form_id):
         social_history = pediatric.social_history
         medical_history = pediatric.medical_history
         economic_numbers = pediatric.economic_numbers
+        doctor_order = pediatric.doctor_order
+        nurse_notes = pediatric.nurse_notes
+        vital_signs = pediatric.vital_signs
 
         context = {
             'form': form,
@@ -484,6 +629,9 @@ def patient_view_form(request, form_id):
             'social_history': social_history,
             'medical_history': medical_history,
             'economic_numbers': economic_numbers,
+            'doctor_order': doctor_order,
+            'nurse_notes' : nurse_notes,
+            'vital_signs': vital_signs
         }
 
     return render(request, 'base/patient-section/patient_view_form.html', context)
@@ -722,6 +870,9 @@ def staff_view_form(request, form_id):
         economic_numbers = adult.economic_numbers
         social_history = adult.social_history
         medical_history = adult.medical_history
+        doctor_order = adult.doctor_order
+        nurse_notes = adult.nurse_notes
+        vital_signs = adult.vital_signs
 
         context = {
             'form': form,
@@ -729,6 +880,9 @@ def staff_view_form(request, form_id):
             'economic_numbers': economic_numbers,
             'social_history': social_history,
             'medical_history': medical_history,
+            'doctor_order': doctor_order,
+            'nurse_notes' : nurse_notes,
+            'vital_signs': vital_signs
         }
 
     elif form.record_type == 'Child':
@@ -737,6 +891,9 @@ def staff_view_form(request, form_id):
         child_details = child.child_details
         newborn_status = child.newborn_status
         economic_numbers = child.economic_numbers
+        doctor_order = child.doctor_order
+        nurse_notes = child.nurse_notes
+        vital_signs = child.vital_signs
 
         context = {
             'form': form,
@@ -744,6 +901,9 @@ def staff_view_form(request, form_id):
             'child_details': child_details,
             'newborn_status': newborn_status,
             'economic_numbers': economic_numbers,
+            'doctor_order': doctor_order,
+            'nurse_notes' : nurse_notes,
+            'vital_signs': vital_signs
         }
 
     elif form.record_type == 'Pediatric':
@@ -754,6 +914,9 @@ def staff_view_form(request, form_id):
         social_history = pediatric.social_history
         medical_history = pediatric.medical_history
         economic_numbers = pediatric.economic_numbers
+        doctor_order = pediatric.doctor_order
+        nurse_notes = pediatric.nurse_notes
+        vital_signs = pediatric.vital_signs
 
         context = {
             'form': form,
@@ -763,6 +926,9 @@ def staff_view_form(request, form_id):
             'social_history': social_history,
             'medical_history': medical_history,
             'economic_numbers': economic_numbers,
+            'doctor_order': doctor_order,
+            'nurse_notes' : nurse_notes,
+            'vital_signs': vital_signs
         }
 
     return render(request, 'base/patient-section/patient_view_form.html', context)
@@ -777,24 +943,36 @@ def staff_update_form(request, form_id):
         economic_numbers = adult.economic_numbers
         social_history = adult.social_history
         medical_history = adult.medical_history
+        doctor_order = adult.doctor_order
+        nurse_notes = adult.nurse_notes
+        vital_signs = adult.vital_signs
 
         if request.method == 'POST':
             user_profile_form = UserProfileForm(request.POST, instance=user_profile)
             economic_numbers_form = EconomicNumbersForm(request.POST, instance=economic_numbers)
             social_history_form = SocialHistoryForm(request.POST, instance=social_history)
             medical_history_form = MedicalHistoryForm(request.POST, instance=medical_history)
+            doctor_order_form = DoctorOrderForm(request.POST, instance=doctor_order)
+            nurse_notes_form = NurseNotesForm(request.POST, instance=nurse_notes)
+            vital_signs_form = VitalSignsForm(request.POST, instance=vital_signs)
 
-            if all(form.is_valid() for form in [user_profile_form, economic_numbers_form, social_history_form, medical_history_form]):
+            if all(form.is_valid() for form in [user_profile_form, economic_numbers_form, social_history_form, medical_history_form, doctor_order_form, nurse_notes_form, vital_signs_form]):
                 user_profile_form.save()
                 economic_numbers_form.save()
                 social_history_form.save()
                 medical_history_form.save()
+                doctor_order_form.save()
+                nurse_notes_form.save()
+                vital_signs_form.save()
                 return redirect('staff_view_form', form_id=form_id)
         else:
             user_profile_form = UserProfileForm(instance=user_profile)
             economic_numbers_form = EconomicNumbersForm(instance=economic_numbers)
             social_history_form = SocialHistoryForm(instance=social_history)
             medical_history_form = MedicalHistoryForm(instance=medical_history)
+            doctor_order_form = DoctorOrderForm(instance=doctor_order)
+            nurse_notes_form = NurseNotesForm(instance=nurse_notes)
+            vital_signs_form = VitalSignsForm(instance=vital_signs)
 
         context = {
             'form': form,
@@ -802,6 +980,9 @@ def staff_update_form(request, form_id):
             'economic_numbers_form': economic_numbers_form,
             'social_history_form': social_history_form,
             'medical_history_form': medical_history_form,
+            'doctor_order_form': doctor_order_form,
+            'nurse_notes_form': nurse_notes_form,
+            'vital_signs_form': vital_signs_form,
         }
 
         return render(request, 'base/patient-section/patient_update_form.html', context)
@@ -812,24 +993,36 @@ def staff_update_form(request, form_id):
         child_details = child.child_details
         newborn_status = child.newborn_status
         economic_numbers = child.economic_numbers
+        doctor_order = child.doctor_order
+        nurse_notes = child.nurse_notes
+        vital_signs = child.vital_signs
 
         if request.method == 'POST':
             user_profile_form = UserProfileForm(request.POST, instance=user_profile)
             child_details_form = ChildDetailsForm(request.POST, instance=child_details)
             newborn_status_form = NewbornStatusForm(request.POST, instance=newborn_status)
             economic_numbers_form = EconomicNumbersForm(request.POST, instance=economic_numbers)
+            doctor_order_form = DoctorOrderForm(request.POST, instance=doctor_order)
+            nurse_notes_form = NurseNotesForm(request.POST, instance=nurse_notes)
+            vital_signs_form = VitalSignsForm(request.POST, instance=vital_signs)
 
-            if all(form.is_valid() for form in [user_profile_form, child_details_form, newborn_status_form, economic_numbers_form]):
+            if all(form.is_valid() for form in [user_profile_form, child_details_form, newborn_status_form, economic_numbers_form, doctor_order_form, nurse_notes_form, vital_signs_form]):
                 user_profile_form.save()
                 child_details_form.save()
                 newborn_status_form.save()
                 economic_numbers_form.save()
+                doctor_order_form.save()
+                nurse_notes_form.save()
+                vital_signs_form.save()
                 return redirect('staff_view_form', form_id=form_id)
         else:
             user_profile_form = UserProfileForm(instance=user_profile)
             child_details_form = ChildDetailsForm(instance=child_details)
             newborn_status_form = NewbornStatusForm(instance=newborn_status)
             economic_numbers_form = EconomicNumbersForm(instance=economic_numbers)
+            doctor_order_form = DoctorOrderForm(instance=doctor_order)
+            nurse_notes_form = NurseNotesForm(instance=nurse_notes)
+            vital_signs_form = VitalSignsForm(instance=vital_signs)
 
         context = {
             'form': form,
@@ -837,6 +1030,9 @@ def staff_update_form(request, form_id):
             'child_details_form': child_details_form,
             'newborn_status_form': newborn_status_form,
             'economic_numbers_form': economic_numbers_form,
+            'doctor_order_form': doctor_order_form,
+            'nurse_notes_form': nurse_notes_form,
+            'vital_signs_form': vital_signs_form,
         }
 
         return render(request, 'base/patient-section/patient_update_form.html', context)
@@ -849,6 +1045,9 @@ def staff_update_form(request, form_id):
         social_history = pediatric.social_history
         medical_history = pediatric.medical_history
         economic_numbers = pediatric.economic_numbers
+        doctor_order = pediatric.doctor_order
+        nurse_notes = pediatric.nurse_notes
+        vital_signs = pediatric.vital_signs
 
         if request.method == 'POST':
             user_profile_form = UserProfileForm(request.POST, instance=user_profile)
@@ -857,14 +1056,20 @@ def staff_update_form(request, form_id):
             social_history_form = SocialHistoryForm(request.POST, instance=social_history)
             medical_history_form = MedicalHistoryForm(request.POST, instance=medical_history)
             economic_numbers_form = EconomicNumbersForm(request.POST, instance=economic_numbers)
+            doctor_order_form = DoctorOrderForm(request.POST, instance=doctor_order)
+            nurse_notes_form = NurseNotesForm(request.POST, instance=nurse_notes)
+            vital_signs_form = VitalSignsForm(request.POST, instance=vital_signs)
 
-            if all(form.is_valid() for form in [user_profile_form, pediatric_details_form, immunization_history_form, social_history_form, medical_history_form, economic_numbers_form]):
+            if all(form.is_valid() for form in [user_profile_form, pediatric_details_form, immunization_history_form, social_history_form, medical_history_form, economic_numbers_form, doctor_order_form, nurse_notes_form, vital_signs_form]):
                 user_profile_form.save()
                 pediatric_details_form.save()
                 immunization_history_form.save()
                 social_history_form.save()
                 medical_history_form.save()
                 economic_numbers_form.save()
+                doctor_order_form.save()
+                nurse_notes_form.save()
+                vital_signs_form.save()
                 return redirect('staff_view_form', form_id=form_id)
         else:
             user_profile_form = UserProfileForm(instance=user_profile)
@@ -873,6 +1078,9 @@ def staff_update_form(request, form_id):
             social_history_form = SocialHistoryForm(instance=social_history)
             medical_history_form = MedicalHistoryForm(instance=medical_history)
             economic_numbers_form = EconomicNumbersForm(instance=economic_numbers)
+            doctor_order_form = DoctorOrderForm(instance=doctor_order)
+            nurse_notes_form = NurseNotesForm(instance=nurse_notes)
+            vital_signs_form = VitalSignsForm(instance=vital_signs)
 
         context = {
             'form': form,
@@ -882,9 +1090,13 @@ def staff_update_form(request, form_id):
             'social_history_form': social_history_form,
             'medical_history_form': medical_history_form,
             'economic_numbers_form': economic_numbers_form,
+            'doctor_order_form': doctor_order_form,
+            'nurse_notes_form': nurse_notes_form,
+            'vital_signs_form': vital_signs_form,
         }
 
         return render(request, 'base/patient-section/patient_update_form.html', context)
+
     
 @staff_login_required
 def staff_delete_form(request, form_id):
@@ -896,6 +1108,9 @@ def staff_delete_form(request, form_id):
         adult.economic_numbers.delete()
         adult.social_history.delete()
         adult.medical_history.delete()
+        adult.doctor_order.delete()
+        adult.nurse_notes.delete()
+        adult.vital_signs.delete()
         adult.delete()
     elif form.record_type == 'Child':
         child = get_object_or_404(Child, form=form)
@@ -903,6 +1118,9 @@ def staff_delete_form(request, form_id):
         child.economic_numbers.delete()
         child.child_details.delete()
         child.newborn_status.delete()
+        child.doctor_order.delete()
+        child.nurse_notes.delete()
+        child.vital_signs.delete()
         child.delete()
     elif form.record_type == 'Pediatric':
         pediatric = get_object_or_404(Pediatric, form=form)
@@ -912,11 +1130,16 @@ def staff_delete_form(request, form_id):
         pediatric.medical_history.delete()
         pediatric.pediatric_details.delete()
         pediatric.immunization_history.delete()
+        pediatric.doctor_order.delete()
+        pediatric.nurse_notes.delete()
+        pediatric.vital_signs.delete()
         pediatric.delete()
 
     form.delete()
 
     return redirect('staff_dashboard')
+
+
 
 @staff_login_required
 def staff_accept_form(request, form_id):

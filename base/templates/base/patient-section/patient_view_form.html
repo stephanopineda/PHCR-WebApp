@@ -14,20 +14,20 @@
     {% if request.user.is_staff %}
     <div>
         {% if form.status == 'Unverified' %}
-            <a href="{% url 'staff_accept_form' form_id=form.form_id %}" class="btn btn-accept">Accept</a>
-            <a href="{% url 'staff_delete_form' form_id=form.form_id %}" class="btn btn-danger">Reject</a>
+            <a href="{% url 'staff_accept_form' form_id=form.id %}" class="btn btn-accept">Accept</a>
+            <a href="{% url 'staff_delete_form' form_id=form.id %}" class="btn btn-danger">Reject</a>
         {% else %}
-            <a href="{% url 'staff_generate_pdf' form_id=form.form_id  %}" class="btn btn-primary">Generate PDF</a>
-            <a href="{% url 'staff_update_form' form_id=form.form_id %}" class="btn btn-success">Update</a>
+            <a href="{% url 'staff_generate_pdf' form_id=form.id  %}" class="btn btn-primary">Generate PDF</a>
+            <a href="{% url 'staff_update_form' form_id=form.id %}" class="btn btn-success">Update</a>
         {% endif %}
     </div>
 {% endif %}
 
 {% if not request.user.is_staff %}
-        <a href="{% url 'patient_update_form' form_id=form.form_id %}" class="btn btn-success">Update</a>
+        <a href="{% url 'patient_update_form' form_id=form.id %}" class="btn btn-success">Update</a>
      {% if form.status == 'Verified' %}
     <div>
-        <a href="{% url 'generate_pdf' form_id=form.form_id %}" class="btn btn-primary">Generate PDF</a>
+        <a href="{% url 'generate_pdf' form_id=form.id %}" class="btn btn-primary">Generate PDF</a>
     </div>
     {% endif %}
 {% endif %}
@@ -74,7 +74,39 @@
         <p><strong>Family Planning:</strong> {{ medical_history.family_planning }}</p>
         <p><strong>Adult Immunization:</strong> {{ medical_history.adult_immunization }}</p>
         <p><strong>Immunization Date:</strong> {{ medical_history.immunization_date }}</p>
-        
+
+         {% if form.status == 'Verified' %}
+
+         <h2>Doctor Orders</h2>
+         <p><strong>Chief Complaint:</strong> {{ doctor_order.chief_complaint }}</p>
+         <p><strong>Findings:</strong> {{ doctor_order.findings }}</p>
+         <p><strong>Impression:</strong> {{ doctor_order.impression }}</p>
+         <p><strong>Management:</strong> {{ doctor_order.management }}</p>
+         <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
+
+         <h2>Nurse Notes</h2>
+         <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
+         <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
+         <p><strong>Subjective Complaint:</strong> {{ nurse_notes.subjective_complaint }}</p>
+         <p><strong>Objective Findings:</strong> {{ nurse_notes.objective_findings }}</p>
+         <p><strong>Implementation:</strong> {{ nurse_notes.implementation }}</p>
+         <p><strong>Assessment:</strong> {{ nurse_notes.assessment }}</p>
+         <p><strong>Plan:</strong> {{ nurse_notes.plan }}</p>
+         <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
+
+        <h2>Vital Signs</h2>
+        <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
+        <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
+        <p><strong>Nutritional Status:</strong> {{ vital_signs.nutritional_status }}</p>
+        <p><strong>BMI:</strong> {{ vital_signs.BMI }}</p>
+        <p><strong>Body Temperature:</strong> {{ vital_signs.body_temperature }}</p>
+        <p><strong>Pulse Rate:</strong> {{ vital_signs.pulse_rate }}</p>
+        <p><strong>Blood Oxygen Levels:</strong> {{ vital_signs.blood_oxygen_levels }}</p>
+        <p><strong>Respiratory Rate:</strong> {{ vital_signs.respiratory_rate }}</p>
+        <p><strong>Blood Pressure:</strong> {{ vital_signs.blood_pressure }}</p>
+
+        {% endif %}
+
         {% elif form.record_type == 'Pediatric' %}
         <h2>Pediatric Details</h2>
         <p><strong>Address:</strong> {{ user_profile.address }}</p>
@@ -131,8 +163,40 @@
         <p><strong>Other Medical History:</strong> {{ medical_history.other_medical_history }}</p>
         <p><strong>Medication Taken:</strong> {{ medical_history.medication_taken }}</p>
         <p><strong>Family Planning:</strong> {{ medical_history.family_planning }}</p>
-        <p><strong>Adult Immunization:</strong> {{ medical_history.adult_immunization }}</p>
+        <p><strong>Adult Immunization:</strong> {{ medical_history.immunization }}</p>
         <p><strong>Immunization Date:</strong> {{ medical_history.immunization_date }}</p>
+
+        {% if form.status == 'Verified' %}
+
+        <h2>Doctor Orders</h2>
+        <p><strong>Chief Complaint:</strong> {{ doctor_order.chief_complaint }}</p>
+        <p><strong>Findings:</strong> {{ doctor_order.findings }}</p>
+        <p><strong>Impression:</strong> {{ doctor_order.impression }}</p>
+        <p><strong>Management:</strong> {{ doctor_order.management }}</p>
+        <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
+
+        <h2>Nurse Notes</h2>
+        <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
+        <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
+        <p><strong>Subjective Complaint:</strong> {{ nurse_notes.subjective_complaint }}</p>
+        <p><strong>Objective Findings:</strong> {{ nurse_notes.objective_findings }}</p>
+        <p><strong>Implementation:</strong> {{ nurse_notes.implementation }}</p>
+        <p><strong>Assessment:</strong> {{ nurse_notes.assessment }}</p>
+        <p><strong>Plan:</strong> {{ nurse_notes.plan }}</p>
+        <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
+
+       <h2>Vital Signs</h2>
+       <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
+       <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
+       <p><strong>Nutritional Status:</strong> {{ vital_signs.nutritional_status }}</p>
+       <p><strong>BMI:</strong> {{ vital_signs.BMI }}</p>
+       <p><strong>Body Temperature:</strong> {{ vital_signs.body_temperature }}</p>
+       <p><strong>Pulse Rate:</strong> {{ vital_signs.pulse_rate }}</p>
+       <p><strong>Blood Oxygen Levels:</strong> {{ vital_signs.blood_oxygen_levels }}</p>
+       <p><strong>Respiratory Rate:</strong> {{ vital_signs.respiratory_rate }}</p>
+       <p><strong>Blood Pressure:</strong> {{ vital_signs.blood_pressure }}</p>
+
+       {% endif %}
 
         {% elif form.record_type == 'Child' %}
         <h2>Child Details</h2>
@@ -168,6 +232,32 @@
         <p><strong>4Ps Member:</strong> {{ economic_numbers.patient_4ps_member }}</p>
         <p><strong>Brgy Number:</strong> {{ economic_numbers.brgy_num }}</p>
         <p><strong>Family Number:</strong> {{ economic_numbers.family_num }}</p>
+
+        {% if form.status == 'Verified' %}
+
+        <h2>Doctor Orders</h2>
+        <p><strong>Chief Complaint:</strong> {{ doctor_order.chief_complaint }}</p>
+        <p><strong>Findings:</strong> {{ doctor_order.findings }}</p>
+        <p><strong>Impression:</strong> {{ doctor_order.impression }}</p>
+        <p><strong>Management:</strong> {{ doctor_order.management }}</p>
+        <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
+
+        <h2>Nurse Notes</h2>
+        <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
+        <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
+        <p><strong>Subjective Complaint:</strong> {{ nurse_notes.subjective_complaint }}</p>
+        <p><strong>Objective Findings:</strong> {{ nurse_notes.objective_findings }}</p>
+        <p><strong>Implementation:</strong> {{ nurse_notes.implementation }}</p>
+        <p><strong>Assessment:</strong> {{ nurse_notes.assessment }}</p>
+        <p><strong>Plan:</strong> {{ nurse_notes.plan }}</p>
+        <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
+
+       <h2>Vital Signs</h2>
+       <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
+       <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
+       <p><strong>Body Temperature:</strong> {{ vital_signs.body_temperature }}</p>
+
+       {% endif %}
 
     {% endif %}
 {% endblock %}

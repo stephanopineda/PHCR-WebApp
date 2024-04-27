@@ -21,7 +21,7 @@
             <tr class="{% cycle 'odd' 'even' %}">
                 <td>{{ form.title }}</td>
                 <td>
-                    <a href="{% url 'staff_view_form' form_id=form.form_id %}" class="view-button" target="_blank">View</a>
+                    <a href="{% url 'staff_view_form' form_id=form.id %}" class="view-button" target="_blank">View</a>
                 </td>
             </tr>
             {% endfor %}

@@ -34,11 +34,11 @@
                 <tbody>
                     {% for form in forms %}
                     <tr>
-                        <td>{{ form.form_id }}</td>
+                        <td>{{ form.id }}</td>
                         <td>{{ form.title }}</td>
                         <td>{{ form.datetime_created }}</td>
                         <td>{{ form.status }}</td>
-                        <td><a href="{% url 'patient_view_form' form_id=form.form_id %}"><button class="view-button">View</button></a></td>
+                        <td><a href="{% url 'patient_view_form' form_id=form.id %}"><button class="view-button">View</button></a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

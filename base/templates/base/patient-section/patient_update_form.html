@@ -5,11 +5,10 @@
     <div class="title">Edit Patient Form</div>
 
     {% if request.user.is_staff %}
-    <a href="{% url 'staff_delete_form' form_id=form.form_id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'staff_delete_form' form_id=form.id %}" class="btn btn-danger">Delete</a>
     {% else %}
-    <a href="{% url 'patient_delete_form' form_id=form.form_id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'patient_delete_form' form_id=form.id %}" class="btn btn-danger">Delete</a>
     {% endif %}
-
 
     <form method="POST">
         {% csrf_token %}
@@ -19,6 +18,11 @@
             {{ economic_numbers_form.as_p }}
             {{ social_history_form.as_p }}
             {{ medical_history_form.as_p }}
+            {% if request.user.is_staff %}
+            {{ doctor_orders_form.as_p }}
+            {{ nurse_notes_form.as_p }}
+            {{ vital_signs_form.as_p }}
+            {% endif %}
         {% elif form.record_type == 'Child' %}
             {{ user_profile_form.address.label_tag }}
             {{ user_profile_form.address }}
@@ -29,6 +33,11 @@
             {{ newborn_status_form.as_p }}
             <h2>Economic Numbers</h2>
             {{ economic_numbers_form.as_p }}
+            {% if request.user.is_staff %}
+            {{ doctor_orders_form.as_p }}
+            {{ nurse_notes_form.as_p }}
+            {{ vital_signs_form.as_p }}
+            {% endif %}
         {% elif form.record_type == 'Pediatric' %}
             {{ user_profile_form.address.label_tag }}
             {{ user_profile_form.address }}
@@ -41,6 +50,11 @@
             {{ immunization_history_form.as_p }}
             {{ social_history_form.as_p }}
             {{ medical_history_form.as_p }}
+            {% if request.user.is_staff %}
+            {{ doctor_orders_form.as_p }}
+            {{ nurse_notes_form.as_p }}
+            {{ vital_signs_form.as_p }}
+            {% endif %}
         {% endif %}
         <button type="submit">Submit</button>
     </form>

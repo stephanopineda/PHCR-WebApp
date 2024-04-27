@@ -38,4 +38,7 @@ urlpatterns = [
     path('staffviewprofile/<int:user_id>/', views.staff_view_profile, name='staff_view_profile'),
     path('staffsuspendprofile/<int:user_id>/', views.staff_suspend_user, name='staff_suspend_user'),
     path('staffgenerate_pdf/<int:form_id>/', views.staff_generate_pdf, name='staff_generate_pdf'),
+
+    path('add_doctor_order/<int:form_id>/', views.add_doctor_order, name='add_doctor_order'),
+    path('add_nurse_notes/<int:form_id>/', views.add_nurse_notes, name='add_nurse_notes'),
 ]

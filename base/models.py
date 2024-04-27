@@ -8,20 +8,20 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=255)
     middle_name = models.CharField(max_length=255, blank=True, default='')
     last_name = models.CharField(max_length=255, default='')
-    birth_date = models.DateField(default=timezone.now)
+    birth_date = models.DateField()
 
     REQUIRED_FIELDS = []
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     age = models.IntegerField(blank=True, null=True)
-    sex = models.CharField(max_length=6, choices=[('male', 'Male'), ('female', 'Female')])
+    sex = models.CharField(max_length=6, choices=[('Male', 'Male'), ('Female', 'Female')])
 
     CIVIL_STATUS_CHOICES = [
-        ('married', 'Married'),
-        ('single', 'Single'),
-        ('divorced', 'Divorced'),
-        ('widowed', 'Widowed'),
+        ('Married', 'Married'),
+        ('Single', 'Single'),
+        ('Divorced', 'Divorced'),
+        ('Widowed', 'Widowed'),
     ]
 
     civil_status = models.CharField(max_length=50, choices=CIVIL_STATUS_CHOICES, blank=True, default='')
@@ -70,9 +70,42 @@ class MedicalHistory(models.Model):
     immunization = models.CharField(max_length=100, blank=True)
     immunization_date = models.DateField(blank=True, null=True, default="")
 
+class DoctorOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    chief_complaint = models.TextField(blank=True)
+    findings = models.TextField(blank=True)
+    impression = models.TextField(blank=True)
+    management = models.TextField(blank=True)
+    filled_datetime = models.DateTimeField(default=timezone.now)
+    filled_by = models.ForeignKey(User, related_name='filled_doctor_order', on_delete=models.SET_NULL, null=True)
+
+class NurseNotes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    admission_date = models.DateField(blank=True, null=True, default=timezone.now)
+    admission_time = models.CharField(max_length=50, blank=True)
+    subjective_complaint = models.CharField(max_length=100, blank=True)
+    objective_findings = models.CharField(max_length=100, blank=True)
+    implementation = models.CharField(max_length=100, blank=True)
+    assessment = models.CharField(max_length=100, blank=True)
+    plan = models.CharField(max_length=100, blank=True)
+    filled_datetime = models.DateTimeField(default=timezone.now)
+    filled_by = models.ForeignKey(User, related_name='filled_nurse_notes', on_delete=models.SET_NULL, null=True)
+
+class VitalSigns(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    weight_in_kg = models.FloatField(blank=True, null=True)
+    height_in_cm = models.FloatField(blank=True, null=True)
+    nutritional_status = models.CharField(max_length=100, blank=True, null=True)
+    BMI = models.FloatField(blank=True, null=True)
+    body_temperature = models.FloatField(blank=True, null=True)
+    pulse_rate = models.FloatField(blank=True, null=True)
+    blood_oxygen_levels = models.FloatField(blank=True, null=True)
+    respiratory_rate = models.FloatField(blank=True, null=True)
+    blood_pressure = models.CharField(max_length=100, blank=True, null=True)
+    filled_by = models.ForeignKey(User, related_name='filled_vital_signs', on_delete=models.SET_NULL, null=True)
+
 class Form(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    form_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     datetime_created = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10)
@@ -153,6 +186,9 @@ class Adult(models.Model):
     economic_numbers = models.ForeignKey('EconomicNumbers', on_delete=models.CASCADE)
     social_history = models.ForeignKey('SocialHistory', on_delete=models.CASCADE)
     medical_history = models.ForeignKey('MedicalHistory', on_delete=models.CASCADE)
+    doctor_order = models.ForeignKey(DoctorOrder, on_delete=models.CASCADE, null=True)
+    nurse_notes = models.ForeignKey(NurseNotes, on_delete=models.CASCADE, null=True)
+    vital_signs = models.ForeignKey(VitalSigns, on_delete=models.CASCADE, null=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
 
 class Pediatric(models.Model):
@@ -163,6 +199,9 @@ class Pediatric(models.Model):
     medical_history = models.ForeignKey(MedicalHistory, on_delete=models.CASCADE)
     pediatric_details = models.ForeignKey(PediatricDetails, on_delete=models.CASCADE)
     immunization_history = models.ForeignKey(ImmunizationHistory, on_delete=models.CASCADE, related_name='pediatric_immunization_history')
+    doctor_order = models.ForeignKey(DoctorOrder, on_delete=models.CASCADE, null=True)
+    nurse_notes = models.ForeignKey(NurseNotes, on_delete=models.CASCADE, null=True)
+    vital_signs = models.ForeignKey(VitalSigns, on_delete=models.CASCADE, null=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
 
 class Child(models.Model):
@@ -171,6 +210,9 @@ class Child(models.Model):
     economic_numbers = models.ForeignKey(EconomicNumbers, on_delete=models.CASCADE)
     child_details = models.ForeignKey(ChildDetails, on_delete=models.CASCADE)
     newborn_status = models.ForeignKey(NewbornStatus, on_delete=models.CASCADE)
+    doctor_order = models.ForeignKey(DoctorOrder, on_delete=models.CASCADE, null=True)
+    nurse_notes = models.ForeignKey(NurseNotes, on_delete=models.CASCADE, null=True)
+    vital_signs = models.ForeignKey(VitalSigns, on_delete=models.CASCADE, null=True)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
 
 # Comment out models.py line 9 and models.py line 12 and forms.py lines 15-17 before adding superuser

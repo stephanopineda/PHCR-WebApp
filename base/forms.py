@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, ChildDetails, NewbornStatus, PediatricDetails, ImmunizationHistory
+from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, ChildDetails, NewbornStatus, PediatricDetails, ImmunizationHistory, DoctorOrder, NurseNotes, VitalSigns
 from datetime import date
 
 class DateInput(forms.DateInput):
@@ -49,6 +49,28 @@ class MedicalHistoryForm(forms.ModelForm):
         widgets = {
             'immunization_date': DateInput()
         }
+
+class DoctorOrderForm(forms.ModelForm):
+    class Meta:
+        model = DoctorOrder
+        fields = '__all__'
+        exclude = ['user', 'filled_datetime', 'filled_by']
+
+class NurseNotesForm(forms.ModelForm):
+    class Meta:
+        model = NurseNotes
+        fields = '__all__'
+        exclude = ['user', 'filled_datetime', 'filled_by']
+        widgets = {
+            'admission_date': DateInput(),
+        }
+
+
+class VitalSignsForm(forms.ModelForm):
+    class Meta:
+        model = VitalSigns
+        fields = '__all__'
+        exclude = ['user', 'filled_by']
 
 class ImmunizationHistoryForm(forms.ModelForm):
     class Meta:
