@@ -1,4 +1,4 @@
-{% include 'sections.html' %}
+{% extends 'main.html' %}
 
 {% block content %}
 
@@ -7,15 +7,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/staff/view_records.css' %}">
 
 <body>
+    
+<form method="GET" action="{% url 'search_records' %}" class="search-form">
+    <input type="text" name="search_query" placeholder="Search by patient name">
+    <button type="submit">Search</button>
+</form>
 
     <div class="records-container">
         <h2 class="records-title">Patient Records</h2>
-
-        <form method="GET" action="{% url 'search_records' %}" class="search-form" target="_blank">
-            <input type="text" name="search_query" placeholder="Search by patient name">
-            <button type="submit">Search</button>
-        </form>
-        
         <table class="records-table">
             <thead>
                 <tr>

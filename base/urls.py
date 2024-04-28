@@ -41,4 +41,7 @@ urlpatterns = [
 
     path('add_doctor_order/<int:form_id>/', views.add_doctor_order, name='add_doctor_order'),
     path('add_nurse_notes/<int:form_id>/', views.add_nurse_notes, name='add_nurse_notes'),
+
+    path('searchrecords/', views.search_records, name='search_records'),
+    path('searchusers/', views.search_users, name='search_users'),
 ]

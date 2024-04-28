@@ -194,8 +194,51 @@ def unverifiedforms(request):
 
 @staff_login_required
 def view_records(request):
+    verified_forms = Form.objects.filter(status='Verified').order_by('-datetime_created')
+
+    verified_forms_data = []
+    for form in verified_forms:
+        if form.record_type == 'Adult':
+            patient_data = Adult.objects.filter(form=form).first()
+            if patient_data:
+                patient_name = f"{patient_data.user.first_name} {patient_data.user.last_name}"
+                verified_forms_data.append({
+                    'id': patient_data.id,
+                    'patient_name': patient_name,
+                    'record_type': form.record_type,
+                    'birthdate': patient_data.user.birth_date,
+                    'form_id': form.id,
+                })
+        elif form.record_type == 'Child':
+            patient_data = Child.objects.filter(form=form).first()
+            if patient_data:
+                patient_name = f"{patient_data.user.first_name} {patient_data.user.last_name}"
+                verified_forms_data.append({
+                    'id': patient_data.id,
+                    'patient_name': patient_name,
+                    'record_type': form.record_type,
+                    'birthdate': patient_data.user.birth_date,
+                    'form_id': form.id,
+                })
+        elif form.record_type == 'Pediatric':
+            patient_data = Pediatric.objects.filter(form=form).first()
+            if patient_data:
+                patient_name = f"{patient_data.user.first_name} {patient_data.user.last_name}"
+                verified_forms_data.append({
+                    'id': patient_data.id,
+                    'patient_name': patient_name,
+                    'record_type': form.record_type,
+                    'birthdate': patient_data.user.birth_date,
+                    'form_id': form.id,
+                })
+
+    context = {'verified_forms_data': verified_forms_data}
+    return render(request, 'base/staff-section/view_precords.html', context)
+
+@staff_login_required
+def search_records(request):
     search_query = request.GET.get('search_query')
-    verified_forms = Form.objects.filter(status='Verified')
+    verified_forms = Form.objects.filter(status='Verified').order_by('-datetime_created')
 
     verified_forms_data = []
     for form in verified_forms:
@@ -238,14 +281,38 @@ def view_records(request):
         verified_forms_data = [data for data in verified_forms_data if search_query.lower() in data['patient_name'].lower()]
 
     context = {'verified_forms_data': verified_forms_data, 'search_query': search_query}
-    return render(request, 'base/staff-section/view_precords.html', context)
+    return render(request, 'base/staff-section/search_records.html', context)
 
 
 @staff_login_required
 def manage_users(request):
+    search_query = request.GET.get('search_query')
     patients = User.objects.filter(is_staff=False, is_active=True)
+    
+    if search_query:
+        patients = patients.filter(
+            first_name__icontains=search_query
+        ) | patients.filter(
+            last_name__icontains=search_query
+        )
+    
     context = {'patients': patients}
     return render(request, 'base/staff-section/manage_users.html', context)
+
+@staff_login_required
+def search_users(request):
+    search_query = request.GET.get('search_query')
+    patients = User.objects.filter(is_staff=False, is_active=True)
+    
+    if search_query:
+        patients = patients.filter(
+            first_name__icontains=search_query
+        ) | patients.filter(
+            last_name__icontains=search_query
+        )
+    
+    context = {'patients': patients}
+    return render(request, 'base/staff-section/search_users.html', context)
 
 @staff_login_required
 def learn_more(request):
