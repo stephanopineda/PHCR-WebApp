@@ -54,9 +54,6 @@ body {
 }
 
 
-
-/* Responsive Styles */
-
 @media only screen and (max-width: 1024px) {
     .form-container {
         max-width: 80%;
@@ -64,6 +61,10 @@ body {
 }
 
 @media only screen and (max-width: 768px) {
+
+    body {
+        background-color: #ffff;
+    }
 
     .form-container {
         border-radius: 0px;
