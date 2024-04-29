@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views 
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', views.home, name="home"),
@@ -14,8 +16,8 @@ urlpatterns = [
     path('unverifiedforms/', views.unverifiedforms, name="unverifiedforms"),
     path('viewrecords/', views.view_records, name="view_records"),
     path('manageusers/', views.manage_users, name="manage_users"),
-    path('learnmore/', views.learn_more, name="learn_more"),
     path('datadashboard/', views.data_dashboard, name="data_dashboard"),
+    path('uploadphoto/', views.upload_photo, name="upload_photo"),
     
     path('patientprofile/', views.patient_profile, name="patient_profile"),
     path('patientrecord/', views.patient_record, name="patient_record"),
@@ -45,3 +47,5 @@ urlpatterns = [
     path('searchrecords/', views.search_records, name='search_records'),
     path('searchusers/', views.search_users, name='search_users'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,40 @@
+{% include 'sections.html' %}
+
+{% block content %}
+<h2>Upload Photo</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Upload</button>
+</form>
+{% endblock content %}
+
+{% block extrastyle %}
+<style>
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h2 {
+    text-align: center;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input[type="file"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  button {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+{% endblock extrastyle %}

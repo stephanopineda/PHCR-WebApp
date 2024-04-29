@@ -180,6 +180,10 @@ class NewbornStatus(models.Model):
     hepa_date = models.DateField(blank=True, null=True, default=None)
     hepa_place = models.CharField(max_length=50, blank=True, default='')
 
+class Announcement(models.Model):
+    date = models.DateField()
+    photo = models.ImageField(upload_to='announcement_photos/')
+
 class Adult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)

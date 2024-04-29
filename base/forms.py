@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, ChildDetails, NewbornStatus, PediatricDetails, ImmunizationHistory, DoctorOrder, NurseNotes, VitalSigns
+from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, ChildDetails, NewbornStatus, PediatricDetails, ImmunizationHistory, DoctorOrder, NurseNotes, VitalSigns, Announcement
 from datetime import date
 
 class DateInput(forms.DateInput):
@@ -65,7 +65,6 @@ class NurseNotesForm(forms.ModelForm):
             'admission_date': DateInput(),
         }
 
-
 class VitalSignsForm(forms.ModelForm):
     class Meta:
         model = VitalSigns
@@ -105,4 +104,12 @@ class NewbornStatusForm(forms.ModelForm):
             'pcv_date': DateInput(),
             'ipv_date': DateInput(),
             'hepa_date': DateInput(),
+        }
+
+class AnnouncementForm(forms.ModelForm):
+    class Meta:
+        model = Announcement
+        fields = '__all__'
+        widgets = {
+            'date': DateInput(),
         }

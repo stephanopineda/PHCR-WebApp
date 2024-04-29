@@ -12,16 +12,25 @@
   .sensor-container{
     display: grid;
     grid-template-columns: 1fr 1fr;
-
+  }
+  .announcement-photo {
+    max-width: 100%;
+    height: auto;
   }
 </style>
 <div class="grid-container">
   <div>
     <h2>Announcements</h2>
+    {% if last_announcement %}
     <div>
-      March 24, 2024
-      <div>Graphics</div>
+      {{ last_announcement.date }}
+      <div>
+        <img src="{{ last_announcement.photo.url }}" class="announcement-photo" alt="Announcement Photo">
+      </div>
     </div>
+    {% else %}
+    <p>No announcements available.</p>
+    {% endif %}
   </div>
 
   <div>

@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.template.loader import get_template
-from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, Adult, Child,  Form, Pediatric, ImmunizationHistory, PediatricDetails, ChildDetails, NewbornStatus, DoctorOrder, NurseNotes, VitalSigns
-from .forms import RegistrationForm, UserProfileForm, EconomicNumbersForm, SocialHistoryForm, MedicalHistoryForm,  ChildDetailsForm, NewbornStatusForm, PediatricDetailsForm, ImmunizationHistoryForm, DoctorOrderForm, NurseNotesForm, VitalSignsForm
+from .models import User, UserProfile, EconomicNumbers, SocialHistory, MedicalHistory, Adult, Child,  Form, Pediatric, ImmunizationHistory, PediatricDetails, ChildDetails, NewbornStatus, DoctorOrder, NurseNotes, VitalSigns,Announcement
+from .forms import RegistrationForm, UserProfileForm, EconomicNumbersForm, SocialHistoryForm, MedicalHistoryForm,  ChildDetailsForm, NewbornStatusForm, PediatricDetailsForm, ImmunizationHistoryForm, DoctorOrderForm, NurseNotesForm, VitalSignsForm, AnnouncementForm
 from functools import wraps
 from xhtml2pdf import pisa
 from datetime import datetime, timedelta
@@ -13,8 +13,10 @@ from django.db.models import Q
 
 # Home
 def home(request):
-    context = {}
+    last_announcement = Announcement.objects.last()
+    context = {'last_announcement': last_announcement}
     return render(request, 'base/home.html', context)
+
 
 # Authentication Functions
 def register_page(request):
@@ -136,11 +138,18 @@ def staff_login_required(view_func):
 @staff_login_required
 def staff_dashboard(request):
     unverified_forms = Form.objects.filter(status='Unverified')
-    context = {'unverified_forms': unverified_forms}
     # total_users = User.objects.count()
     # total_patients = User.objects.filter(is_staff=False).count()
     # total_staffs = User.objects.filter(is_staff=True, is_superuser=False).count()
     # context = {'total_users': total_users, 'total_patients': total_patients, 'total_staffs': total_staffs, 'unverified_forms': unverified_forms}
+    if request.method == 'POST':
+        form = AnnouncementForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  
+    else:
+        form = AnnouncementForm()
+    context = {'unverified_forms': unverified_forms, 'form': form}
     return render(request, 'base/staff_dashboard.html', context)
 
 @staff_login_required
@@ -276,7 +285,6 @@ def search_records(request):
                     'form_id': form.id,
                 })
 
-    # Filter records based on search query
     if search_query:
         verified_forms_data = [data for data in verified_forms_data if search_query.lower() in data['patient_name'].lower()]
 
@@ -1211,8 +1219,6 @@ def staff_delete_form(request, form_id):
 
     return redirect('staff_dashboard')
 
-
-
 @staff_login_required
 def staff_accept_form(request, form_id):
     form = get_object_or_404(Form, pk=form_id)
@@ -1309,6 +1315,17 @@ def staff_generate_pdf(request, form_id):
         return HttpResponse('An error occurred while generating the PDF')
 
     return response
+
+def upload_photo(request):
+    if request.method == 'POST':
+        form = AnnouncementForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  
+    else:
+        form = AnnouncementForm()
+    return render(request, 'base/staff-section/upload_photo.html', {'form': form})
+
 
 
 
