@@ -1,140 +1,186 @@
-/* dashboard.css */
-
-body{
+body {
+    margin: 0;
+    padding: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: #f0f0f0;
+    background-color: #ffff;
 }
 
-.container {
-    background-color: #ffffff;
+.dash-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 15px - 78px);
+    background-color: #ffff;
+    max-width: 100%; 
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.dashboard {
+    text-align: center;
+    color: #236FC8;
+    margin-top: 10px;
+    font-weight: bolder;
+    font-size: 30px;
+}
+
+.cards-container {
+    margin-left: 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 16px;
+}
+
+.card {
+    background-color: #ffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
-    margin-left: 110px;
-    margin-right: 50px;
+    border: 1px solid #ccc;
+    height: 120px;
 }
-.dashboard {
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    padding: 16px;
+}
+
+.card-row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
-    margin-top: 10px;
-    background-color: #ffffff;
-}
-
-.dashboard-title {
-    font-size: 18px;
-    padding-top: 40px;
-    color: #236FC8;
-    margin-top: 30px;
-    margin-left: 10px;
-    text-align: center;
     align-items: center;
-    
 }
 
-.dashboard-item {
-    flex: 0 0 calc(33.33% - 20px); 
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0.1, 0, 0.2);
-    text-align: center; 
+.card-content {
+    flex: 1;
 }
 
-.dashboard-item:hover {
-    background: #E9EDF2;
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-}
-
-.dashboard-item h2 {
-    margin-bottom: 10px;
-    font-size: 18px;
+.label {
+    font-size: 15px;
+    font-weight: bold;
     color: #24344B;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.number {
+    margin-top: auto;
+    font-size: 30px;
+    font-weight: bold;
+    color: #2980b9;
+}
+
+.card-icon {
+    flex: 0;
+}
+
+.card-icon i {
+    font-size: 32px;
+    color: #5a5c69;
+}
+
+.tables-container {
+    margin-left: 80px;
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+}
+
+.table {
+    border-collapse: collapse;
+    margin: 20px;
+    width: 88%;
+    background-color: white;
+}
+
+.table th, .table td {
+    padding: 8px;
+    border: 1.5px solid #ddd;
+    text-align: left;
+}
+
+.table th {
+    text-align: center;
+    background-color: #f0f0f0;
+    color: #2980b9;
     font-weight: bold;
 }
 
-.dashboard-item .value {
-    font-size: 24px;
-    color: #236FC8;
+.table td {
+    text-align: center;
+    color: #5a5c69;
+    font-weight: lighter;
 }
 
-.dashboard-item i {
-    font-size: 36px; 
-    margin-bottom: 10px;
-    color: #24344B;
+.table tr:hover {
+    border-color: #236FC8;
+    background-color: #f0f0f0;
 }
 
-.total-patients { border-color: #24344B; }
-.pending-forms { border-color: #24344B; }
-.total-submitted-forms { border-color: #24344B; }
-.total-child-patients { border-color: #24344B; }
-.total-adolescent-patients { border-color: #24344B; }
-.total-adult-patients { border-color: #24344B; }
-
-
-
-
-/* For tablets (768px and below) */
 
 @media (max-width: 768px) {
-    .dashboard-title{
-        font-size: 18px;
+    .cards-container {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .dashboard {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+    .tables-container {
+        grid-template-columns: repeat(1, 1fr);
+        display: grid;
+        padding: 5px;
     }
-
-    .dashboard-item {
-        flex: 0 0 calc(50% - 10px); 
-        margin: 5px;
-    }
-
-    .dashboard-item h2 {
-        font-size: 16px;
-    }
-    
-    .dashboard-item .value {
-        font-size: 20px;
-    }
-    
-    .dashboard-item i {
-        font-size: 30px;
-    }
-}
-
-/* For mobile devices (600px and below) */
-
-@media (max-width: 600px) {
     
     .dashboard {
-        flex-direction: column; 
-        align-items: center;
+        font-size: 28px;
     }
-
     
-    .dashboard-item {
-        width: 100%;
-        flex: 0 0 100%;
-        margin-bottom: 10px; 
-    }
-
-    
-    .dashboard-item h2 {
+    .label {
         font-size: 14px;
-    }
+    } 
     
-    .dashboard-item .value {
-        font-size: 18px;
-    }
-    
-    .dashboard-item i {
+    .number {
         font-size: 24px;
     }
+    
+    .card-icon i {
+        font-size: 28px;
+    }
 }
 
 
+@media (max-width: 500px) {
+
+    .cards-container, .table {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .card-content {
+        align-items: center;
+        text-align: center;
+    }
+
+    .dashboard {
+        margin-left: 50px;
+        font-size: 18px;
+    }
+    
+    .card-icon i {
+        font-size: 24px;
+    }
+
+    .table th, td {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 350px) {
+
+    .card {
+        height: auto;
+    }
+
+    .card-icon i {
+        display: none;
+    }
+
+}
