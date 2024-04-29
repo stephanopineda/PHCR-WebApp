@@ -642,7 +642,6 @@ def add_nurse_notes(request, form_id):
 
 #PATIENT CRUD
 
-@staff_login_required 
 def patient_view_form(request, form_id):
     user = request.user
     form = Form.objects.get(pk=form_id, user=user)
@@ -1316,6 +1315,7 @@ def staff_generate_pdf(request, form_id):
 
     return response
 
+@staff_login_required
 def upload_photo(request):
     if request.method == 'POST':
         form = AnnouncementForm(request.POST, request.FILES)
@@ -1325,30 +1325,4 @@ def upload_photo(request):
     else:
         form = AnnouncementForm()
     return render(request, 'base/staff-section/upload_photo.html', {'form': form})
-
-
-
-
-
-# Staff CRUD
-# def patient_view_form(request):
-#     context = {}
-#     #return render(request, 'base/home.html', context)
-#     return HttpResponse('Patient Dashboard')
-
-# def patient_create_form_(request):
-#     context = {}
-#     #return render(request, 'base/home.html', context)
-#     return HttpResponse('Patient Dashboard')
-
-# def patient_update_form_(request):
-#     context = {}
-#     #return render(request, 'base/home.html', context)
-#     return HttpResponse('Patient Dashboard')
-
-# def patient_unsubmit_form_(request):
-#     context = {}
-#     #return render(request, 'base/home.html', context)
-#     return HttpResponse('Patient Dashboard')
-
 

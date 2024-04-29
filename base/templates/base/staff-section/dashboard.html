@@ -4,59 +4,205 @@
 
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'styles/staff/dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/staff/dashboard.css' %}">
 
-<body>
+    <body>
 
-<div class="dashboard">
-    <div class="dashboard-item total-users">
-        <i class="fas fa-users"></i>
-        <h2>Total Users</h2>
-        <p class="value">{{ total_users }}</p>
-    </div>
-    <div class="dashboard-item total-patients">
-        <i class="fas fa-user"></i>
-        <h2>Total Patients</h2>
-        <p class="value">{{ total_patients }}</p>
-    </div>
-    <div class="dashboard-item total-staffs">
-        <i class="fas fa-user-tie"></i>
-        <h2>Total Staffs</h2>
-        <p class="value">{{ total_staffs }}</p>
-    </div>
-    <div class="dashboard-item inactive-users">
-        <i class="fas fa-user-xmark"></i>
-        <h2>Inactive Users</h2>
-        <p class="value">{{ inactive_users_count }}</p>
-    </div>
-    <div class="dashboard-item pending-forms">
-        <i class="fas fa-clipboard"></i>
-        <h2>Pending Forms</h2>
-        <p class="value">{{ pending_forms_count }}</p>
-    </div>
-    <div class="dashboard-item total-submitted-forms">
-        <i class="fas fa-file-signature"></i>
-        <h2>Submitted Forms</h2>
-        <p class="value">{{ submitted_forms_count }}</p>
-    </div>
-    <div class="dashboard-item total-child-patients">
-        <i class="fas fa-child"></i>
-        <h2>Child Patients</h2>
-        <p class="value">{{ child_patients }}</p>
-    </div>
-    <div class="dashboard-item total-adolescent-patients">
-        <i class="fas fa-user"></i>
-        <h2>Adolescent Patients</h2>
-        <p class="value">{{ pediatric_patients }}</p>
-    </div>
-    <div class="dashboard-item total-adult-patients">
-        <i class="fas fa-user-tie"></i>
-        <h2>Adult Patients</h2>
-        <p class="value">{{ adult_patients }}</p>
-    </div>
-</div>
+        <div class="dash-container">
 
-</body>
+            <h2 class="dashboard">
+                Dashboard
+            </h2>
+
+            <div class="cards-container">
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Total Users</div>
+                                <div class="number">{{total_users}}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Total Patients</div>
+                                <div class="number">{{total_patients}}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-hospital-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Total Staff</div>
+                                <div class="number">{{total_staffs}}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-user-nurse"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Submitted Forms</div>
+                                <div class="number">{{ submitted_forms_count }}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-file-circle-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Pending Forms</div>
+                                <div class="number">{{ pending_forms_count }}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-file-circle-question"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+               
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Child Patients</div>
+                                <div class="number">{{ child_patients }}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-child"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+               
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Pediatric Patients</div>
+                                <div class="number">{{ pediatric_patients }}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-row">
+                            <div class="card-content">
+                                <div class="label">Adult Patients</div>
+                                <div class="number">{{ adult_patients }}</div>
+                            </div>
+                            <div class="card-icon">
+                                <i class="fa-solid fa-user-group"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Container for tables -->
+            <div class="tables-container">
+                <!-- Table 1 -->
+                <table class="table">
+                    <tr>
+                        <th>Medical History</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr>
+                        <td>Diabetes</td>
+                        <td>234</td>
+                    </tr>
+                    <tr>
+                        <td>Asthma</td>
+                        <td>723</td>
+                    </tr>
+                    <tr>
+                        <td>Hypertension</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>Pulmonary Tuberculosis</td>
+                        <td>49</td>
+                    </tr>
+                    <tr>
+                        <td>Cancer</td>
+                        <td>71</td>
+                    </tr>
+                    <tr>
+                        <td>Cough</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>Others</td>
+                        <td>23</td>
+                    </tr>
+                </table>
+
+                <!-- Table 2 -->
+                <table class="table">
+                    <tr>
+                        <th>Social History</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr>
+                        <td>Smoker</td>
+                        <td>615</td>
+                    </tr>
+                    <tr>
+                        <td>Alcohol Intake</td>
+                        <td>921</td>
+                    </tr>
+                    <tr>
+                        <td>Prohibited Drug</td>
+                        <td>34</td>
+                    </tr>
+                    
+                </table>
+            </div>
+
+        </div>
+
+    </body>
+
 </html>
 
+
 {% endblock %}
+

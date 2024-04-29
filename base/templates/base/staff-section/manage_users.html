@@ -31,7 +31,7 @@
                 <td>{{ patient.date_joined }}</td>
                 <td>
                     <a href="{% url 'staff_view_profile' user_id=patient.id %}" class="view-button" target="_blank">View</a>
-                    <a href="{% url 'staff_suspend_user' user_id=patient.id %}" class="view-button suspend-button" style="background-color: red; color: white;" target="_blank">Suspend</a>
+                    <a href="{% url 'staff_suspend_user' user_id=patient.id %}" class="view-button suspend-button" target="_blank">Suspend</a>
                 </td>
             </tr>
             {% endfor %}

@@ -1,33 +1,15 @@
 {% include 'main.html' %}
 
-<head>
-    <title>Suspend User</title>
-    <style>
-        .confirmation-container {
-            margin: 50px auto;
-            text-align: center;
-        }
-        .btn {
-            padding: 10px 20px;
-            margin: 0 10px;
-            cursor: pointer;
-        }
-        .btn-suspend {
-            background-color: red;
-            color: white;
-        }
-        .btn-cancel {
-            background-color: #ccc;
-            color: #000;
-        }
-    </style>
-</head>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/staff/suspend_user.css' %}">
+
 <body>
     <div class="confirmation-container">
         <h2>Are you sure you want to suspend this user?</h2>
         <form method="POST" action="{% url 'staff_suspend_user' user_id=user.id %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-suspend">Suspend</button>
+            <button type="submit" class="btn btn-suspend" >Suspend</button>
             <a href="#" class="btn btn-cancel" onclick="cancelSuspension()">Cancel</a>
         </form>
     </div>
@@ -35,11 +17,10 @@
     <script>
         function cancelSuspension() {
             alert("Suspension cancelled");
-            window.history.back(); 
+            window.close(); 
         }
     </script>
 </body>
-</html>
 
 
 {% include 'base/patient-section/patient_profile.html' %}
