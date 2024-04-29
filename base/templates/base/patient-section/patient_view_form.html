@@ -5,8 +5,8 @@
 </style>
 
 
-
 <div class="hide-on-pdf">
+
     {% include 'main.html' %}
 
     {% block content %}
@@ -14,11 +14,11 @@
     {% load static %}
     
     <link rel="stylesheet" href="{% static 'styles/patient/patient_view_form.css' %}">
-    
-    <div class="container">
-    
-        
-    
+
+</div>
+
+<div class="container">
+    <div class="hide-on-pdf">
             <h1 class="main-title">{{ form.title }} Details</h1>
         
             {% if request.user.is_staff %}
@@ -44,10 +44,8 @@
             {% endif %}
             </div>
         {% endif %}
-        
     </div>
 
-</div>
 
         <div class="form-section">
     
@@ -115,7 +113,7 @@
                     <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
                 </div>
     
-                <div class="info-container"></div>
+                <div class="info-container">
                     <h2 class="form-title">Nurse Notes</h2>
                     <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
                     <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
@@ -127,7 +125,7 @@
                     <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
                 </div>
     
-                <div class="info-container"></div>
+                <div class="info-container">
                     <h2 class="form-title">Vital Signs</h2>
                     <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
                     <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
@@ -224,7 +222,7 @@
                     <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
                 </div>
     
-                <div class="info-container"></div>
+                <div class="info-container">
                     <h2 class="form-title">Nurse Notes</h2>
                     <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
                     <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
@@ -236,7 +234,7 @@
                     <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
                 </div>
     
-                <div class="info-container"></div>
+                <div class="info-container">
                     <h2 class="form-title">Vital Signs</h2>
                     <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
                     <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
@@ -251,9 +249,6 @@
     
                 {% endif %}
     
-                
-                
-            
                 {% elif form.record_type == 'Child' %}
                 <div class="info-container">
                     <h2 class="form-title">Child Details</h2>
@@ -306,7 +301,7 @@
                     <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
                 </div>
     
-                <div class="info-container"></div>
+                <div class="info-container">
                     <h2 class="form-title">Nurse Notes</h2>
                     <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
                     <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
@@ -318,7 +313,7 @@
                     <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
                 </div>
     
-                <div class="info-container"></div>
+                <div class="info-container">
                     <h2 class="form-title">Vital Signs</h2>
                     <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
                     <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
@@ -338,7 +333,7 @@
         </div>
     
     </div>
-    
+</div>
         
     {% endblock %}
     

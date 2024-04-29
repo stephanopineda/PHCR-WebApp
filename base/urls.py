@@ -16,7 +16,6 @@ urlpatterns = [
     path('unverifiedforms/', views.unverifiedforms, name="unverifiedforms"),
     path('viewrecords/', views.view_records, name="view_records"),
     path('manageusers/', views.manage_users, name="manage_users"),
-    path('datadashboard/', views.data_dashboard, name="data_dashboard"),
     path('uploadphoto/', views.upload_photo, name="upload_photo"),
     
     path('patientprofile/', views.patient_profile, name="patient_profile"),

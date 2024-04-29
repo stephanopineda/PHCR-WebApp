@@ -46,12 +46,14 @@
                         <h2>Social History</h2>
                         {{ social_history_form.as_p }}
                     </div>
+                </div>
 
                 {% if request.user.is_staff %}
+                <div class="info-container">
 
                     <div class="form-details">
                         <h2>Doctor Order</h2>
-                       {{ doctor_orders_form.as_p }}
+                       {{ doctor_order_form.as_p }}
                     </div>
                        
                     <div class="form-details">
@@ -59,7 +61,7 @@
                       {{ nurse_notes_form.as_p }}
                     </div>
 
-                    <div class="form-details"></div>
+                    <div class="form-details">
                         <h2>Vital Signs</h2>
                       {{ vital_signs_form.as_p }}
                      </div>
@@ -90,7 +92,7 @@
 
                     <div class="form-details">
                         <h2>Doctor Order</h2>
-                       {{ doctor_orders_form.as_p }}
+                       {{ doctor_order_form.as_p }}
                     </div>
                        
                     <div class="form-details">
@@ -98,7 +100,7 @@
                       {{ nurse_notes_form.as_p }}
                     </div>
 
-                    <div class="form-details"></div>
+                    <div class="form-details">
                         <h2>Vital Signs</h2>
                       {{ vital_signs_form.as_p }}
                      </div>
@@ -139,7 +141,7 @@
 
                     <div class="form-details">
                         <h2>Doctor Order</h2>
-                       {{ doctor_orders_form.as_p }}
+                       {{ doctor_order_form.as_p }}
                     </div>
                        
                     <div class="form-details">
@@ -147,7 +149,7 @@
                       {{ nurse_notes_form.as_p }}
                     </div>
 
-                    <div class="form-details"></div>
+                    <div class="form-details">
                         <h2>Vital Signs</h2>
                       {{ vital_signs_form.as_p }}
                      </div>
@@ -162,7 +164,7 @@
                 </div>
 
                 
-                </form>
+            </form>
         
         </div>
 

@@ -137,11 +137,25 @@ def staff_login_required(view_func):
 
 @staff_login_required
 def staff_dashboard(request):
-    unverified_forms = Form.objects.filter(status='Unverified')
-    # total_users = User.objects.count()
-    # total_patients = User.objects.filter(is_staff=False).count()
-    # total_staffs = User.objects.filter(is_staff=True, is_superuser=False).count()
-    # context = {'total_users': total_users, 'total_patients': total_patients, 'total_staffs': total_staffs, 'unverified_forms': unverified_forms}
+    total_users = User.objects.count()
+    total_patients = User.objects.filter(is_staff=False).count()
+    total_staffs = User.objects.filter(is_staff=True, is_superuser=False).count()
+    pending_forms_count = Form.objects.filter(status='Unverified').count()
+    inactive_users_count = User.objects.filter(is_active=False).count()
+    submitted_forms_count = Form.objects.filter(status='Verified').count()
+
+    today = datetime.today()
+    one_year_ago = today - timedelta(days=365)
+    child_patients = User.objects.filter(
+        Q(is_staff=False) & Q(birth_date__gte=one_year_ago)
+    ).count()
+    pediatric_patients = User.objects.filter(
+        Q(is_staff=False) & Q(birth_date__lt=one_year_ago) & Q(birth_date__gte=today - timedelta(days=365*19))
+    ).count()
+    adult_patients = User.objects.filter(
+        Q(is_staff=False) & Q(birth_date__lt=today - timedelta(days=365*19))
+    ).count()
+
     if request.method == 'POST':
         form = AnnouncementForm(request.POST, request.FILES)
         if form.is_valid():
@@ -149,7 +163,20 @@ def staff_dashboard(request):
             return redirect('home')  
     else:
         form = AnnouncementForm()
-    context = {'unverified_forms': unverified_forms, 'form': form}
+
+    context = {
+        'total_users': total_users,
+        'total_patients': total_patients,
+        'total_staffs': total_staffs,
+        'pending_forms_count': pending_forms_count,
+        'inactive_users_count': inactive_users_count,
+        'submitted_forms_count': submitted_forms_count,
+        'child_patients': child_patients,
+        'pediatric_patients': pediatric_patients,
+        'adult_patients': adult_patients,
+        'form': form,
+    }
+
     return render(request, 'base/staff_dashboard.html', context)
 
 @staff_login_required
@@ -187,12 +214,6 @@ def dashboard(request):
     }
     return render(request, 'base/staff-section/dashboard.html', context)
 
-
-
-@staff_login_required
-def data_dashboard(request):
-    context = {}
-    return render(request, 'base/staff-section/data_dashboard.html', context)
 
 @staff_login_required
 def unverifiedforms(request):
@@ -641,7 +662,7 @@ def add_nurse_notes(request, form_id):
 
 
 #PATIENT CRUD
-
+@login_required(login_url='home')
 def patient_view_form(request, form_id):
     user = request.user
     form = Form.objects.get(pk=form_id, user=user)
