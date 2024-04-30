@@ -1,2 +1,8 @@
 *.pyc
 venv/
+env/
+/base
+*.pyc
+*.pyc
+*.pyc
+*.pyc
