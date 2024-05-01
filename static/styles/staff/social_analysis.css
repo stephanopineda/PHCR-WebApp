@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+.chart-container {
+    width: 45%;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+h2 {
+    color: #236FC8;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.gender-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.gender-legend div {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+.gender-legend div span {
+    margin-left: 5px;
+}

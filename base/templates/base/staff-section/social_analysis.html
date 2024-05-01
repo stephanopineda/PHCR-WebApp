@@ -1,0 +1,152 @@
+{% extends 'main.html' %}
+{% block content %}
+
+{% load static %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/staff/social_analysis.css' %}">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="chart-container">
+            <h2>Smoker Analysis by Gender</h2>
+            <canvas id="smokerGenderChart" width="200" height="100"></canvas>
+            <div class="gender-legend">
+                <div class="male-legend">
+                    <div style="width: 20px; height: 20px; background-color: rgba(255, 140, 0, 0.6); display: inline-block;"></div>
+                    <span style="color: #236FC8;">Male</span>
+                </div>
+                <div class="female-legend">
+                    <div style="width: 20px; height: 20px; background-color: rgba(0, 128, 0, 0.6); display: inline-block;"></div>
+                    <span style="color: #236FC8;">Female</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>Smoker Analysis by Age Group</h2>
+            <canvas id="smokerAgeGroupChart" width="200" height="100"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Alcohol Intake Analysis by Gender</h2>
+            <canvas id="alcoholIntakeGenderChart" width="200" height="100"></canvas>
+            <div class="gender-legend">
+                <div class="male-legend">
+                    <div style="width: 20px; height: 20px; background-color: rgba(255, 140, 0, 0.6); display: inline-block;"></div>
+                    <span style="color: #236FC8;">Male</span>
+                </div>
+                <div class="female-legend">
+                    <div style="width: 20px; height: 20px; background-color: rgba(0, 128, 0, 0.6); display: inline-block;"></div>
+                    <span style="color: #236FC8;">Female</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>Alcohol Intake Analysis by Age Group</h2>
+            <canvas id="alcoholIntakeAgeGroupChart" width="200" height="100"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Prohibited Drugs Analysis by Gender</h2>
+            <canvas id="prohibitedDrugsGenderChart" width="200" height="100"></canvas>
+            <div class="gender-legend">
+                <div class="male-legend">
+                    <div style="width: 20px; height: 20px; background-color: rgba(255, 140, 0, 0.6); display: inline-block;"></div>
+                    <span style="color: #236FC8;">Male</span>
+                </div>
+                <div class="female-legend">
+                    <div style="width: 20px; height: 20px; background-color: rgba(0, 128, 0, 0.6); display: inline-block;"></div>
+                    <span style="color: #236FC8;">Female</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>Prohibited Drugs Analysis by Age Group</h2>
+            <canvas id="prohibitedDrugsAgeGroupChart" width="200" height="100"></canvas>
+        </div>
+
+    </div>
+
+    <script>
+        var smokerAgeGroupData = JSON.parse('{{ smoker_age_groups|escapejs }}');
+        var prohibitedDrugsAgeGroupData = JSON.parse('{{ prohibited_drugs_age_groups|escapejs }}');
+        var alcoholIntakeAgeGroupData = JSON.parse('{{ alcohol_intake_age_groups|escapejs }}');
+        var smokerGenderData = JSON.parse('{{ smoker_gender|escapejs }}');
+        var prohibitedDrugsGenderData = JSON.parse('{{ prohibited_drugs_gender|escapejs }}');
+        var alcoholIntakeGenderData = JSON.parse('{{ alcohol_intake_gender|escapejs }}');
+
+        function createLineChart(canvasId, data, color) {
+            var ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: 'Number of Patients',
+                        data: Object.values(data),
+                        backgroundColor: color,
+                        borderColor: 'rgba(148, 0, 211, 1)', // Dark violet
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createBarChart(canvasId, data, barColors) {
+            var ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: 'Number of Patients',
+                        data: Object.values(data),
+                        backgroundColor: barColors,
+                        borderColor: barColors.map(color => color.replace('0.6', '1')), 
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        createBarChart('smokerGenderChart', smokerGenderData, ['rgba(255, 140, 0, 0.6)', 'rgba(0, 128, 0, 0.6)']);
+        createBarChart('prohibitedDrugsGenderChart', prohibitedDrugsGenderData, ['rgba(255, 140, 0, 0.6)', 'rgba(0, 128, 0, 0.6)']);
+        createBarChart('alcoholIntakeGenderChart', alcoholIntakeGenderData, ['rgba(255, 140, 0, 0.6)', 'rgba(0, 128, 0, 0.6)']);
+        createLineChart('smokerAgeGroupChart', smokerAgeGroupData, 'rgba(148, 0, 211, 0.6)');
+        createLineChart('prohibitedDrugsAgeGroupChart', prohibitedDrugsAgeGroupData, 'rgba(148, 0, 211, 0.6)');
+        createLineChart('alcoholIntakeAgeGroupChart', alcoholIntakeAgeGroupData, 'rgba(148, 0, 211, 0.6)');
+        
+    </script>
+</body>
+</html>
+
+{% endblock content %}

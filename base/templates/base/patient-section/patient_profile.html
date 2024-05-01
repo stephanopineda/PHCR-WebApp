@@ -3,6 +3,7 @@
 {% block content %}
 
 {% load static %}
+{% load custom_filters %}
 
 <link rel="stylesheet"  href="{% static 'styles/patient/patient_profile_.css' %}">
 
@@ -69,7 +70,7 @@
 
                     <div class="info-item">
                         <label>4Ps Member:</label>
-                        <span id="4ps-member">{{ economic_numbers.patient_4ps_member }}</span>
+                        <span id="4ps-member">{{ economic_numbers.patient_4ps_member|yes_no }}</span>
                     </div>
                     <div class="info-item">
                         <label>Barangay Number:</label>
