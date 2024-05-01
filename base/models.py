@@ -53,9 +53,6 @@ class SocialHistory(models.Model):
     smoker = models.BooleanField(default=False)
     cigarette_sticks_per_day = models.IntegerField(blank=True, null=True, default=0)
 
-    def is_smoker(self):
-        return self.smoker
-
 class MedicalHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     diabetes = models.BooleanField(default=False)
