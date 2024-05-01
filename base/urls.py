@@ -47,6 +47,9 @@ urlpatterns = [
 
     path('searchrecords/', views.search_records, name='search_records'),
     path('searchusers/', views.search_users, name='search_users'),
+
+    path('socialhistorydashboard/', views.social_history_analysis, name='social_history_analysis'),
+    path('medicalhistorydashboard/', views.medical_history_analysis, name='medical_history_analysis'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
