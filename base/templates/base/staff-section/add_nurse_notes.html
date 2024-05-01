@@ -6,8 +6,7 @@
 <!-- <link rel="stylesheet" href="{% static 'styles/nurse_notes.css' %}">
 <script type="text/javascript" src="{% static 'js/nurse_notes.js' %}"></script> -->
 
-<link rel="stylesheet" href="{% static 'styles/patient/adult_form.css' %}">
-<script type="text/javascript" src="{% static 'js/register.js' %}"></script> 
+<link rel="stylesheet" href="{% static 'styles/staff/add_nurse_notes.css' %}">
 
 <body>
     <div class="container">
@@ -15,8 +14,14 @@
         <form method="POST">
             <div class="user-details">
                 {% csrf_token %}
-                {{ nurse_notes_form.as_p }}
-                {{ vital_signs_form.as_p }}
+                <div class="column">
+                    <h2>Notes</h2>
+                    {{ nurse_notes_form.as_p }}
+                </div>
+                <div class="column">
+                    <h2>Vital Signs</h2>
+                    {{ vital_signs_form.as_p }}
+                </div>
             </div>
             <div class="button">
                 <input type="submit" value="Submit">
@@ -24,4 +29,6 @@
         </form>
     </div>
 </body>
+
+
 {% endblock content %}

@@ -5,11 +5,12 @@
 }
 
 body {
-    background-color: #ffff;
+    background-color: #24344B;
     font-family: "Poppins", sans-serif;
 }
 
 .confirmation-container {
+    background-color: #f9f9f9;
     width: 40%;
     margin: 20px auto;
     border-radius: 8px;
@@ -23,7 +24,8 @@ body {
     margin-bottom: 20px;
 }
 
-.confirmation-container a {
+.confirmation-container a,
+.confirmation-container button{
     font-size: 16px;
     margin: 10px;
     border-radius: 5px;

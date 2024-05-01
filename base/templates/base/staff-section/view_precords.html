@@ -12,8 +12,8 @@
             <h2 class="records-title">Patient Records</h2>
 
             <form method="GET" action="{% url 'search_records' %}" class="search-form" target="_blank">
-                <input type="text" name="search_query" placeholder="Search by patient name">
-                <button type="submit">Search</button>
+                <input type="text" name="search_query" placeholder="Search by Patient Name">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
 
             <table class="records-table">
@@ -35,8 +35,8 @@
                         <td>{{ form_data.record_type }}</td>
                         <td>
                             <a href="{% url 'staff_view_form' form_id=form_data.form_id %}" class="view-button" target="_blank">View</a>
-                            <a href="{% url 'add_doctor_order' form_id=form_data.form_id %}" class="add-notes-button" target="_blank">Doc Order</a>
-                            <a href="{% url 'add_nurse_notes' form_id=form_data.form_id %}" class="add-notes-button" target="_blank">Nurse Notes</a>
+                            <a href="{% url 'add_doctor_order' form_id=form_data.form_id %}" class="add-doctor-notes" target="_blank">Doc Order</a>
+                            <a href="{% url 'add_nurse_notes' form_id=form_data.form_id %}" class="add-nurse-notes" target="_blank">Nurse Notes</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -46,5 +46,7 @@
             </table>
         </div>
     </div>
+
+</body>
     
     {% endblock %}

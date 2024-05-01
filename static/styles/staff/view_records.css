@@ -4,78 +4,44 @@ body {
     background-color: #ffff;
 }
 
-.search-filter-container {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.search-form {
     display: flex;
-    justify-content: space-between; 
-    margin-left: 20px;
-    margin-right: 20px; 
     margin-bottom: 30px;
+    margin-top: 50px;
 }
 
-.search {
-    display: flex;
-    align-items: center;
-}
 
-.searchTerm {
+.search-form input {
     width: 250px;
-    border: 2px solid #24344B;
-    border-right: none;
+    border: 1px solid #ccc;
     padding: 5px;
     height: 30px;
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px;
     outline: none;
     font-size: 16px;
 }
-
-.searchTerm:focus {
-    color: #24344B;
-}
-
-.searchButton {
+.search-form button {
     width: 30px;
     height: 30px;
-    border: 1px solid grey;
-    background: #24344B;
+    border: 1px solid #ccc;
+    background: #236FC8;
     text-align: center;
-    color: #fff;
-    border-radius: 5px;
+    color: #ffff;
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
-    font-size: 20px;
-}
-
-.filter {
-    display: flex;
-    align-items: center; 
-}
-
-.filter select {
-    padding-left: 5px;
-    padding-right: 60px;
-    outline: none;
-    font-size: 16px;
-    border: 2px solid #24344B;
-    border-radius: 5px;
-    outline: none;
-    -webkit-appearance: none; 
-    appearance: none;
-    background-position: right 10px center;
-    background-size: 20px;
-    height: 30px;
-    cursor: pointer;
-}
-
-.filter i.fa-filter {
-    padding: 5px;
-    width: 30px;
-    height: 30px;
-    border: 1px solid grey;
-    background: #24344B;
-    text-align: center;
-    color: #fff;
-    border-radius: 5px;
     font-size: 16px;
 }
+
+.search-form button:hover {
+    background: #1A4F99;
+}
+
 
 .container {
     max-width: 1200px; 
@@ -146,8 +112,9 @@ body {
     background-color: #F7F8FC;;
 }
 
-.view-button {
-    background-color: #236FC8;
+.view-button,
+.add-doctor-notes,
+.add-nurse-notes { 
     color: #FFFFFF;
     border: none;
     padding: 8px 20px; 
@@ -157,19 +124,33 @@ body {
     margin-left: 10px; 
 }
 
+.view-button {
+    background-color: #236FC8;
+}
+
 .view-button:hover {
     background-color: #1A4F99;
+}
+
+.add-doctor-notes {
+    background-color: #4b8c53;
+}
+
+.add-doctor-notes:hover {
+    background-color: #276221;
+}
+
+.add-nurse-notes {
+    background-color: #f3b037;
+}
+
+.add-nurse-notes:hover {
+    background-color: #816510;
 }
 
 .records-table a {
     text-decoration: none;
 }
-
-
-
-
-
-/* Media Queries */
 
 @media screen and (max-width: 1365px) {
     .records-table th:nth-child(1),

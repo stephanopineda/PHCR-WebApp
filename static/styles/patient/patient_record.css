@@ -169,6 +169,12 @@ body {
 
 }
 
+@media only screen and (max-width: 560px) {
+    .add-record span {
+        display: none;
+    }
+}
+
 @media only screen and (max-width: 405px) {
 
     .records-table th:nth-child(4),
