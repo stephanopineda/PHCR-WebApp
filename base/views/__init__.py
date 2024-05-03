@@ -6,3 +6,4 @@ from .staff_forms_views import *
 from .patient_crud_views import *
 from .staff_crud_views import *
 from .data_analysis import *
+from .resetpassword import *

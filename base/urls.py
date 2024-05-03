@@ -50,6 +50,11 @@ urlpatterns = [
 
     path('socialhistorydashboard/', views.social_history_analysis, name='social_history_analysis'),
     path('medicalhistorydashboard/', views.medical_history_analysis, name='medical_history_analysis'),
+
+    path('resetpassword/', views.reset_password, name='reset_password'),
+    path('password_requests/', views.password_requests, name='password_requests'),
+    path('approve_password_change/<int:request_id>/', views.approve_password_change, name='approve_password_change'),
+    path('reject_password_change/<int:request_id>/', views.reject_password_change, name='reject_password_change'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

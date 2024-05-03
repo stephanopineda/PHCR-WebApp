@@ -77,6 +77,7 @@ def social_history_analysis(request):
 
     return render(request, 'base\staff-section\social_analysis.html', context)
 
+@staff_login_required
 def medical_history_analysis(request):
     
     diabetes_age_groups = {

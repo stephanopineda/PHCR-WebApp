@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import date
 
@@ -37,6 +38,14 @@ class UserProfile(models.Model):
             delta_in_years = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
             self.age = delta_in_years
         super().save(*args, **kwargs)
+
+CustomUser = get_user_model()
+
+class PasswordChangeRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    new_password = models.CharField(max_length=128)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
 class EconomicNumbers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
