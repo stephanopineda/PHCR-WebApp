@@ -11,12 +11,12 @@
     <div class="record-container">
         <h2 class="records-title">My Records</h2>
 
-
-        <a href="{% url 'data_privacy' %}" class="add-record">
-            <i class="fa-solid fa-plus"></i>
-            Add <span>Record</span>
-        </a>
-
+        <div class="add-record">
+            <a href="{% url 'data_privacy' %}" >
+                <i class="fa-solid fa-plus"></i>
+                Add <span>Record</span>
+            </a>
+        </div>
 
         <div class="records-container">
             <div id="patientsTable"></div>

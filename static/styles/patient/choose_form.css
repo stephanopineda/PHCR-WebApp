@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #24344B;
 }
 
@@ -9,6 +9,16 @@ body {
     box-sizing: border-box;
   }
 
+
+.form-container {
+    margin: 20px auto;
+    max-width: 70%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 .form-container h2{
     color: #24344B;
     margin-top: 15px;
@@ -16,24 +26,42 @@ body {
     text-align: center;
 }
 
-.form-container {
-    margin: 20px auto;
-    max-width: 60%;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-
 .form-container p {
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
+.main-card {
+    max-width: 100%;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.form-card {
+    background-color: #ffff;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-card .description {
+    color: #24344B; 
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.form-card .form-link {
+    margin: 10px;
+}
+
 .form-link {
-    display: inline-block;
-    margin-top: 15px;
     text-decoration: none;
     background-color: #24344B;
     color: #fff;
@@ -46,17 +74,18 @@ body {
     background-color: #007bff;
 }
 
-.form-container a{
+.form-card a{
     text-align: center;
-    width: 30%;
+    width: 50%;
     margin-left: 15px;
-    margin-bottom: 50px;
+    margin-top: 30px;
+    
 }
 
 
 @media only screen and (max-width: 1024px) {
     .form-container {
-        max-width: 80%;
+        max-width: 100%;
     }
 }
 
@@ -73,6 +102,12 @@ body {
         margin-top: 0;
     }
 
+    .main-card {
+        
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+    }
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -85,7 +120,7 @@ body {
     .form-container label,
     .form-container a
      {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .form-container a {
@@ -93,6 +128,18 @@ body {
         width:25%;
         font-size: 14px;
     }
+}
 
+@media only screen and (max-width: 500px) {
+    .form-container p,
+    .form-container label,
+    .form-container a
+     {
+        font-size: 12px;
+    }
+
+    .form-card a{
+        width: 80%;
+    }
 
 }

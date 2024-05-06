@@ -90,6 +90,12 @@ body {
 
 
 .add-record {
+    display: flex;
+    align-items: flex-end;
+    justify-content: right;
+}
+
+.add-record a {
     font-size: 14px;
     background-color: #2ecc71;
     color: #FFFFFF;
@@ -98,11 +104,10 @@ body {
     border: none;
     cursor: pointer;
     font-weight: bold;
-    margin-left: 85%;
     text-decoration: none;
 }
 
-.add-record:hover {
+.add-record a:hover {
     background-color: #2aa259;
     
 }
@@ -162,10 +167,6 @@ body {
         display: none;
     }
 
-    .add-record {
-        font-size: 10px;
-        padding: 10px 10px; 
-    }
 
 }
 
@@ -196,17 +197,13 @@ body {
 }
 
 @media only screen and (max-width: 1009px) {
-    .add-record {
-        margin-left: 80%;
+    .add-record a{
+        font-size: 10px;
+        padding: 10px 10px; 
     }
 }
 
-@media only screen and (max-width: 781px) {
-    .add-record {
-        margin-left: 70%;
-    }
-    
-}
+
 
 
 

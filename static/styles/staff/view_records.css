@@ -44,6 +44,9 @@ body {
 
 
 .container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 15px - 78px);
     max-width: 1200px; 
     margin: 0 auto;
     padding: 20px;
@@ -165,6 +168,7 @@ body {
 }
 
 @media screen and (max-width: 1024px) {
+    
     .records-table th:nth-child(3),
     .records-table td:nth-child(3) {
         display: none; 
@@ -172,6 +176,15 @@ body {
 
     .container{
         margin-top: 2px;
+    }
+
+    .view-button,
+    .add-doctor-notes,
+    .add-nurse-notes {
+        padding: 3px 8px;
+        margin-bottom: 10px; 
+        font-size: 12px; 
+        display: grid;
     }
 
 }
@@ -189,7 +202,7 @@ body {
         font-size: 14px;
     }
 
-    .records-table td {
+    .records-table td, .search-form input, .search-form button {
         font-size: 12px;
     }
 
@@ -198,10 +211,6 @@ body {
         border: none; 
     }
 
-    .view-button {
-        padding: 3px 8px; 
-        font-size: 12px; 
-    }
 
 
 }

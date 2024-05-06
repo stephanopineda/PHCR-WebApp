@@ -59,7 +59,7 @@
   .container {
     max-width: 1000px;
     width: 100%;
-    background: white;
+    background: #f9f9f9;
     padding: 25px 30px;
     border-radius: 5px;
     margin-top: 60px;
@@ -185,6 +185,13 @@
     .input-box {
       width: 100%;
       margin-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .input-box input,
+    input[type="date"],
+    select {
+    font-size: 12px;
     }
   
     .category {
@@ -192,12 +199,12 @@
     }
   
     form .button {
-      display: block; 
       margin: 10px auto; 
+      font-size: 12px;
     }
   
     .title {
-      font-size: 20px;
+      font-size: 16px;
       text-align: center;
       margin-bottom: 10px;
     }

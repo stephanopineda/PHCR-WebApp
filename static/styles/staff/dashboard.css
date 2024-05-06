@@ -19,8 +19,49 @@ body {
     text-align: center;
     color: #236FC8;
     margin-top: 10px;
+    margin-bottom: 20px;
     font-weight: bolder;
     font-size: 30px;
+}
+
+.analysis-container {
+    margin-bottom: 20px;
+    margin-left: 80px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.analysis-container a {
+    padding: 8px 28px;
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.analysis-container .view-social {
+    background-color: #4b8c53;
+}
+
+.analysis-container .view-social:hover {
+    background-color: #276221;
+}
+
+.analysis-container .view-medical {
+    background-color: #236FC8;
+}
+
+.analysis-container .view-medical:hover {
+    background-color: #1A4F99;
+}
+
+.analysis-container i {
+    padding-right: 10px;
 }
 
 .cards-container {
@@ -28,7 +69,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    padding: 16px;
+    padding: 6px;
 }
 
 .card {
@@ -120,7 +161,13 @@ body {
 
 
 @media (max-width: 768px) {
+
+    .analysis-container {
+        justify-content: center;
+    }
+
     .cards-container {
+        margin-left: 70px;
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -148,7 +195,18 @@ body {
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
+
+    .analysis-container {
+        display: grid;
+        margin-bottom: 0;
+    }
+
+    .analysis-container a {
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
 
     .cards-container, .table {
         grid-template-columns: repeat(1, 1fr);

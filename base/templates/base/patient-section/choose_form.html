@@ -8,17 +8,30 @@
 <div class="form-container">
     <h2>Records Form</h2>
 
-    <div class="description">
-    <p>Child Patient: 0 to 11 months </p>
-    <p>Pediatric Patient: 1 to 19 years old </p>
-    <p>Adult Patient: 20 years old and above </p>
+    <div class="main-card">
+        <div class="form-card">
+            <div class="description">
+                <p>0 to 11 months</p>
+            </div>
+            <a href="{% url 'child_form' %}" class="form-link">Child</a>
+        </div>
+    
+        <div class="form-card">
+            <div class="description">
+                <p>20 years old and above</p>
+            </div>
+            <a href="{% url 'adult_form' %}" class="form-link">Adult</a>
+        </div>
+    
+        <div class="form-card">
+            <div class="description">
+                <p>1 to 19 years old</p>
+            </div>
+            <a href="{% url 'pediatric_form' %}" class="form-link">Pediatric</a>
+        </div>
     </div>
 
-        <p>Please choose your form: </p>
-        <a href="{% url 'child_form' %}" class="form-link">Child</a>
-        <a href="{% url 'adult_form' %}" class="form-link">Adult</a>
-        <a href="{% url 'pediatric_form' %}" class="form-link">Pediatric</a>
-    </form>
 </div>
+
 
 {% endblock %}

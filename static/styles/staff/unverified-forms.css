@@ -5,6 +5,9 @@ body {
 }
 
 .form-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 15px - 78px);
     margin-left: 80px;
     background-color: #ffff;
     max-width: 1200px; 
@@ -87,6 +90,7 @@ body {
 
     .form-container {
         margin-top: 2px;
+        border: none;
     }
 
 }

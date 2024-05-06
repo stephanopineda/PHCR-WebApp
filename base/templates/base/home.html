@@ -1,61 +1,128 @@
 {% extends 'main.html' %} 
 
-
 {% block content %}
-<style>
-  .grid-container {
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    padding-left: 10%;
-    padding-right: 10%;
-  }
-  .sensor-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .announcement-photo {
-    max-width: 100%;
-    height: auto;
-  }
-</style>
 
-<div class="grid-container">
-  <div>
-    <h2>Announcements</h2>
-    {% if last_announcement %}
-    <div>
-      {{ last_announcement.date }}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/home.css' %}">
+
+
+<div class="main-container">
+  
+  <div class="announcement-container">
+      <h2 class="announcement-title">ANNOUNCEMENT</h2>
+      {% if last_announcement %}
       <div>
-        <img src="{{ last_announcement.photo.url }}" class="announcement-photo" alt="No Announcement Available">
+          <div class="ann-date">
+            <span>Date Posted:</span> 
+            {{ last_announcement.date }}
+          </div>
+          
+          <div>
+              <img src="{{ last_announcement.photo.url }}" class="announcement-photo" alt="No Announcement Available">
+          </div>
       </div>
-    </div>
-    {% else %}
-    <p>No announcements available.</p>
-    {% endif %}
+      {% else %}
+      <p>No announcements available.</p>
+      {% endif %}
   </div>
 
-  <div>
-    <h3>Paltoc HC Monitoring</h3>
-    <div class="sensor-container">
-      <div>
-        <p>Temperature</p>
+  <div class="env-container">
+
+      <h3 class="env-title">PALTOC HC MONITORING</h3>
+
+      <div class="view-charts">
+        <a href=""></i>View Charts<i class="fa-solid fa-arrow-right-long"></i></a>
       </div>
-      <div>
-        <p>Humidity</p>
+
+      <div class="sensor-container">
+          <div class="card temp">
+              <div class="card-body">
+                  <div class="card-row">
+                      <div class="card-content">
+                          <div class="label">Temperature</div>
+                          <div class="sensor-reading">27<span> °C</span></div>
+                      </div>
+                      <div class="card-icon temp">
+                          <i class="fa-solid fa-thermometer-three-quarters"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          
+          <div class="card humidity">
+              <div class="card-body">
+                  <div class="card-row">
+                      <div class="card-content">
+                          <div class="label">Humidity</div>
+                          <div class="sensor-reading">23<span> %</span></div> 
+                      </div>
+                      <div class="card-icon humidity">
+                        <i class="fa-solid fa-droplet"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="card co2">
+              <div class="card-body">
+                  <div class="card-row">
+                      <div class="card-content">
+                          <div class="label">Air Gases</div>
+                          <div class="sensor-reading">800 <span>ppm</span></div>
+                      </div>
+                      <div class="card-icon co2">
+                          <i class="fa-solid fa-wind"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="card pm1">
+              <div class="card-body">
+                  <div class="card-row">
+                      <div class="card-content">
+                          <div class="label">PM1</div>
+                          <div class="sensor-reading">10<span>µg/m³</span></div>
+                      </div>
+                      <div class="card-icon pm1">
+                        <i class="fa-solid fa-virus"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="card pm25">
+              <div class="card-body">
+                  <div class="card-row">
+                      <div class="card-content">
+                          <div class="label">PM2.5 </div>
+                          <div class="sensor-reading">15<span>µg/m³ </span></div> 
+                      </div>
+                      <div class="card-icon pm25">
+                        <i class="fa-brands solid fa-cloudversify"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="card pm10">
+              <div class="card-body">
+                  <div class="card-row">
+                      <div class="card-content">
+                          <div class="label">PM10</div>
+                          <div class="sensor-reading">20<span>µg/m³</span></div>
+                      </div>
+                      <div class="card-icon pm10">
+                          <i class="fa-solid fa-smog"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
-      <div>
-        <p>CO2 Levels</p>
-      </div>
-      <div>
-        <p>PM1</p>
-      </div>
-      <div>
-        <p>PM2.5</p>
-      </div>
-      <div>
-        <p>PM10</p>
-      </div>
-    </div>
   </div>
 </div>
+
+
 {% endblock content %}

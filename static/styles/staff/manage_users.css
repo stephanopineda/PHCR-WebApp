@@ -43,6 +43,9 @@ body {
 }
 
 .manage-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 15px - 78px);
     background-color: #ffff;
     max-width: 1200px; 
     margin: 0 auto;
@@ -162,8 +165,14 @@ body {
     }
 
     .view-button {
+        display: grid;
         padding: 6px 12px; 
+        margin-bottom: 10px;
         font-size: 12px; 
+    }
+
+    .records-table td, .search-form input, .search-form button {
+        font-size: 12px;
     }
 
 }
