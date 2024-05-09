@@ -1,4 +1,5 @@
 
+
 <div class="hide-on-pdf">
 
     {% include 'main.html' %}
@@ -13,6 +14,11 @@
 <link rel="stylesheet" href="{% static 'styles/patient/patient_view_form.css' %}">
 
 <div class="container">
+
+    <div class="back">
+        {% include 'back-button.html' %}
+    </div>
+
     <h1 class="main-title">Patient Medical Record</h1>
     <div class="hide-on-pdf">
         
@@ -46,7 +52,6 @@
                     <p><strong>First Name:</strong> {{ user_profile.user.first_name }}</p>
                     <p><strong>Last Name:</strong> {{ user_profile.user.last_name }}</p>
                     <p><strong>Birth Date:</strong> {{ user_profile.user.birth_date }}</p>
-                    <br>
                     <p><strong>Form Status:</strong> {{ form.status }}</p>
                     <p><strong>Record Type:</strong> {{ form.title }}</p>
                 </div>
@@ -62,132 +67,105 @@
 
                     {% if form.status == 'Verified' %}
     
-                <div class="info-container">
-                    <h2 class="form-title">Doctor Order</h2>
-                    <p><strong>Chief Complaint:</strong> {{ doctor_order.chief_complaint }}</p>
-                    <p><strong>Findings:</strong> {{ doctor_order.findings }}</p>
-                    <p><strong>Impression:</strong> {{ doctor_order.impression }}</p>
-                    <p><strong>Management:</strong> {{ doctor_order.management }}</p>
-                    <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
-                </div>
-    
-                <div class="info-container">
-                    <h2 class="form-title">Nurse Notes</h2>
-                    <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
-                    <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
-                    <p><strong>Subjective Complaint:</strong> {{ nurse_notes.subjective_complaint }}</p>
-                    <p><strong>Objective Findings:</strong> {{ nurse_notes.objective_findings }}</p>
-                    <p><strong>Implementation:</strong> {{ nurse_notes.implementation }}</p>
-                    <p><strong>Assessment:</strong> {{ nurse_notes.assessment }}</p>
-                    <p><strong>Plan:</strong> {{ nurse_notes.plan }}</p>
-                    <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
-                </div>
-    
-                <div class="info-container">
-                    <h2 class="form-title">Vital Signs</h2>
-                    <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
-                    <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
-                    <p><strong>Nutritional Status:</strong> {{ vital_signs.nutritional_status }}</p>
-                    <p><strong>BMI:</strong> {{ vital_signs.BMI }}</p>
-                    <p><strong>Body Temperature:</strong> {{ vital_signs.body_temperature }}</p>
-                    <p><strong>Pulse Rate:</strong> {{ vital_signs.pulse_rate }}</p>
-                    <p><strong>Blood Oxygen Levels:</strong> {{ vital_signs.blood_oxygen_levels }}</p>
-                    <p><strong>Respiratory Rate:</strong> {{ vital_signs.respiratory_rate }}</p>
-                    <p><strong>Blood Pressure:</strong> {{ vital_signs.blood_pressure }}</p>
-                </div>
+                    <div class="info-container">
+                        <h2 class="form-title">Doctor Order</h2>
+                        <p><strong>Chief Complaint:</strong> {{ doctor_order.chief_complaint }}</p>
+                        <p><strong>Findings:</strong> {{ doctor_order.findings }}</p>
+                        <p><strong>Impression:</strong> {{ doctor_order.impression }}</p>
+                        <p><strong>Management:</strong> {{ doctor_order.management }}</p>
+                        <p><strong>Filled Datetime:</strong> {{ doctor_order.filled_datetime }}</p>
+                    </div>
+        
+                    <div class="info-container">
+                        <h2 class="form-title">Nurse Notes</h2>
+                        <p><strong>Admission Date:</strong> {{ nurse_notes.admission_date }}</p>
+                        <p><strong>Admission Time:</strong> {{ nurse_notes.admission_time }}</p>
+                        <p><strong>Subjective Complaint:</strong> {{ nurse_notes.subjective_complaint }}</p>
+                        <p><strong>Objective Findings:</strong> {{ nurse_notes.objective_findings }}</p>
+                        <p><strong>Implementation:</strong> {{ nurse_notes.implementation }}</p>
+                        <p><strong>Assessment:</strong> {{ nurse_notes.assessment }}</p>
+                        <p><strong>Plan:</strong> {{ nurse_notes.plan }}</p>
+                        <p><strong>Filled Datetime:</strong> {{ nurse_notes.filled_datetime }}</p>
+                    </div>
+        
+                    <div class="info-container">
+                        <h2 class="form-title">Vital Signs</h2>
+                        <p><strong>Weight (kg):</strong> {{ vital_signs.weight_in_kg }}</p>
+                        <p><strong>Height (cm):</strong> {{ vital_signs.height_in_cm }}</p>
+                        <p><strong>Nutritional Status:</strong> {{ vital_signs.nutritional_status }}</p>
+                        <p><strong>BMI:</strong> {{ vital_signs.BMI }}</p>
+                        <p><strong>Body Temperature:</strong> {{ vital_signs.body_temperature }}</p>
+                        <p><strong>Pulse Rate:</strong> {{ vital_signs.pulse_rate }}</p>
+                        <p><strong>Blood Oxygen Levels:</strong> {{ vital_signs.blood_oxygen_levels }}</p>
+                        <p><strong>Respiratory Rate:</strong> {{ vital_signs.respiratory_rate }}</p>
+                        <p><strong>Blood Pressure:</strong> {{ vital_signs.blood_pressure }}</p>
+                    </div>
             </div>
         </div>
-               </div>
+</div>
     
                 {% endif %}
-            </div>
-    
-        </div>
-    
-    </div>
-</div>
+
 
 <style media="print">
-    .hide-on-pdf {
+    
+    .hide-on-pdf, .back {
         display: none;
-    }
-    /* Global Styles */
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
     }
 
     body {
-        background-color: #24344B;
         font-family: "Poppins", sans-serif;
-        color: #333;
+        color: #000;
+        background-color: #ffffff;
     }
 
     .container {
-        max-width: 70%;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #ffffff; 
+        width: 100%;
+        border-collapse: collapse;
     }
 
     .main-title {
-        margin-top: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 10px;
         color: #236FC8;
         text-align: center;
-        font-size: 30px;
+        font-size: 16px;
         font-weight: bold;
-        margin-bottom: 20px;
     }
-
 
     .form-section {
-        margin-top: 20px;
+        width: 100%;
+        table-layout: fixed;
+        border-spacing: 20px;
     }
 
-    .form-section .status {
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        align-items: center;
-        margin: 50px;
-        margin-bottom: 10px;
-    }
-
-    .form-section .details {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        margin: 50px;
-        padding: 20px;
-        margin-bottom: 10px;
+    .form-section.details {
+        display: table-row;
     }
 
     .form-section h2.form-title {
-        padding: 14px;
+        margin-top: 15px;
+        border-top: 1px solid #ccc;
         text-align: center;
+        font-size: 14px; 
         color: #236FC8;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 20px;
     }
 
     .form-section p {
-        font-size: 18px;
-        margin-bottom: 10px;
+        font-size: 12px;
     }
 
     .form-section p strong {
-        color: #5a5c69;
         font-weight: bold;
     }
 
-    .info-container {
-        padding: 20px;
-        border-radius: 10px;
+    .form-buttons {
+        display: none; 
     }
-
 </style>
+
+
 
         
     {% endblock %}

@@ -1,7 +1,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    background-color: #ffff;
+    background-color: #f9f9f9;
 }
 
 * {
@@ -136,7 +136,7 @@ body {
 }
 
 .add-doctor-notes {
-    background-color: #4b8c53;
+    background-color: #21a130;
 }
 
 .add-doctor-notes:hover {

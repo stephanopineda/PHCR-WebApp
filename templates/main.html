@@ -19,11 +19,11 @@
   <body>
     {% include 'navbar.html' %}
     {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
+    <div id="messages">
+      {% for message in messages %}
+          <span class="alert-message">{{ message }}</span>
+      {% endfor %}
+  </div>
     {% endif %}
     
     {% block content %}

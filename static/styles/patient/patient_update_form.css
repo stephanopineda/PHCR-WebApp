@@ -19,7 +19,7 @@ body {
 }
 
 .title {
-    margin-top: 20px;
+    margin-top: 30px;
     color: #236FC8;
     text-align: center;
     font-size: 30px;
@@ -114,13 +114,13 @@ body {
     margin-bottom: 40px;
   }
 
+
  
   @media (max-width: 1024px) {
     .container {
         max-width: 80%;
     }
-
-  }
+}
 
 @media (max-width: 768px) {
     
